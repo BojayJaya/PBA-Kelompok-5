@@ -33,7 +33,7 @@ st.write("##### Pramudya Dwi Febrianto - 200411100042")
 st.write("##### Febrian Achmad Syahputra - 200411100106")
 
 #Navbar
-data_set_description, upload_data, preprocessing, ekstraksifitur, modeling, implementation = data_set_description, upload_data, preprocessing, ekstraksifitur, modeling, implementation = st.tabs(["Data Set Description", "Upload Data", "Preprocessing", "Modeling", "Implementation"])
+data_set_description, upload_data, preprocessing, ekstraksifitur, modeling, implementation = st.sidebar.beta_columns(6)
 
 df = pd.read_csv('https://raw.githubusercontent.com/HambaliFitrianto/Aplikasi-Web-Data-Mining-Weather-Prediction/main/seattle-weather.csv')
 
