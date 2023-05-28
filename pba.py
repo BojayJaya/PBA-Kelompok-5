@@ -199,7 +199,7 @@ with modeling:
                 # 'Akurasi' : [gaussian_akurasi, knn_akurasi, dt_akurasi],
                 # 'Model' : ['Gaussian Naive Bayes', 'K-NN', 'Decission Tree'],
                 'Akurasi' : [knn_akurasi],
-                'Model' : ['K-NN'],
+                'Model' : ['KNN'],
             })
 
             chart = (
@@ -221,7 +221,7 @@ with implementation:
         st.subheader("Implementasi")
         Ulasan = st.number_input('Masukkan preciptation (curah hujan) : ')
         model = st.selectbox('Pilihlah model yang akan anda gunakan untuk melakukan prediksi?',
-                ('K-NN'))
+                ('KNN'))
 
         prediksi = st.form_submit_button("Submit")
         if prediksi:
@@ -234,7 +234,7 @@ with implementation:
             input_norm = ((inputs - df_min) / (df_max - df_min))
             input_norm = np.array(input_norm).reshape(1, -1)
 
-            if model == 'K-NN':
+            if model == 'KNN':
                 mod = knn 
 
             input_pred = mod.predict(input_norm)
