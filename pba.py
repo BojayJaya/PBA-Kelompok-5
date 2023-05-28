@@ -55,22 +55,17 @@ with data_set_description:
     st.write("""###### Penjelasan Ekstraksi Fitur : """)
     st.write("""TF-IDF :""")
     st.write("""Ditahap akhir dari text preprocessing adalah term-weighting .Term-weighting merupakan proses pemberian bobot term pada dokumen. Pembobotan ini digunakan nantinya oleh algoritma Machine Learning untuk klasifikasi dokumen. Ada beberapa metode yang dapat digunakan, salah satunya adalah TF-IDF (Term Frequency-Inverse Document Frequency).""")
-    st.write("""TF (Term Frequency) :
-    
-    TF (Term Frequency) adalah ukuran yang menggambarkan seberapa sering sebuah kata muncul dalam suatu dokumen. Menghitung TF melibatkan perbandingan jumlah kemunculan kata dengan jumlah kata keseluruhan dalam dokumen.
-    """)
-    st.write("""Perhitungan TF (Term Frequency) :
-    
-    TF(term) = (Jumlah kemunculan term dalam dokumen) / (Jumlah kata dalam dokumen)
-    """)
-    st.write("""DF (Document Frequency) :
-    
-    DF (Document Frequency) adalah ukuran yang menggambarkan seberapa sering sebuah kata muncul dalam seluruh koleksi dokumen. DF menghitung jumlah dokumen yang mengandung kata tersebut.
-    """)
+    st.write("""TF (Term Frequency) :""")
+    st.write("""TF (Term Frequency) adalah ukuran yang menggambarkan seberapa sering sebuah kata muncul dalam suatu dokumen. Menghitung TF melibatkan perbandingan jumlah kemunculan kata dengan jumlah kata keseluruhan dalam dokumen.""")
+    st.write("""Perhitungan TF (Term Frequency) :""")
+    st.write("""TF(term) = (Jumlah kemunculan term dalam dokumen) / (Jumlah kata dalam dokumen)""")
+    st.write("""DF (Document Frequency) :""")
+    st.write("""DF (Document Frequency) adalah ukuran yang menggambarkan seberapa sering sebuah kata muncul dalam seluruh koleksi dokumen. DF menghitung jumlah dokumen yang mengandung kata tersebut.""")
     st.write("""Perhitungan DF (Document Frequency) :
     
     DF(term) = Jumlah dokumen yang mengandung term
     """)
+    
     st.write("""IDF (Inverse Document Frequency) :
     
     IDF (Inverse Document Frequency) adalah ukuran yang menggambarkan seberapa penting sebuah kata dalam seluruh koleksi dokumen. IDF dihitung dengan mengambil logaritma terbalik dari rasio total dokumen dengan jumlah dokumen yang mengandung kata tersebut. Tujuan IDF adalah memberikan bobot yang lebih besar pada kata-kata yang jarang muncul dalam seluruh koleksi dokumen.
