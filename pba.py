@@ -305,8 +305,12 @@ with modeling:
                 vector[i] = vector[i] = tfidf_dict[word]
         return vector
 
-    X_train_vectors = [text_to_vector(document, tf_train) for document in X_train]
-    X_test_vectors = [text_to_vector(document, tf_test) for document in X_test]
+    # Menghitung representasi TF-IDF untuk seluruh data
+    tfidf_dict = calculate_tfidf(calculate_tf(Data_ulasan["ulasan"]), calculate_idf(Data_ulasan["ulasan"]))
+
+    # Mengonversi data ulasan pelatihan dan pengujian ke dalam vektor menggunakan representasi TF-IDF yang sama
+    X_train_vectors = [text_to_vector(document, tfidf_dict) for document in X_train]
+    X_test_vectors = [text_to_vector(document, tfidf_dict) for document in X_test]
 
     print("Vector Representation (TF-IDF):")
     for i, vector in enumerate(X_train_vectors):
