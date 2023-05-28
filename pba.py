@@ -53,7 +53,7 @@ with data_set_description:
     """)
     
     st.write("""###### Penjelasan Ekstraksi Fitur : """)
-    st.write("""TF-IDF :
+    st.write("""1. TF-IDF :
     
     Ditahap akhir dari text preprocessing adalah term-weighting .Term-weighting merupakan proses pemberian bobot term pada dokumen. Pembobotan ini digunakan nantinya oleh algoritma Machine Learning untuk klasifikasi dokumen. Ada beberapa metode yang dapat digunakan, salah satunya adalah TF-IDF (Term Frequency-Inverse Document Frequency).
     """)
