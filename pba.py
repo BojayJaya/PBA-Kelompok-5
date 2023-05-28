@@ -197,21 +197,21 @@ with preprocessing:
             if term not in term_dict:
                 term_dict[term] = ' '
 
-    #st.write(len(term_dict))
-    #st.write("------------------------")
+    st.write(len(term_dict))
+    st.write("------------------------")
 
     for term in term_dict:
         term_dict[term] = stemmed_wrapper(term)
         st.write(term, ":", term_dict[term])
 
-    #st.write(term_dict)
-    #st.write("------------------------")
+    st.write(term_dict)
+    st.write("------------------------")
 
     def get_stemmed_term(document):
         return [term_dict[term] for term in document]
 
     dataset['ulasan_tokens_stemmed'] = dataset['ulasan_tokens_WSW'].apply(get_stemmed_term)
-
+    st.write(dataset['ulasan_tokens_stemmed'].head())
 
 with modeling:
     st.write("Menyimpan data hasil preprocessing ke pickle")
