@@ -302,7 +302,7 @@ with modeling:
         vector = np.zeros(len(tfidf_dict))
         for i, word in enumerate(tfidf_dict):
             if word in words:
-                vector[i] = vector[i] = tfidf_dict[word]
+                vector[i] = tfidf_dict[word]
         return vector
 
     # Menghitung representasi TF-IDF untuk seluruh data
@@ -321,7 +321,7 @@ with modeling:
     knn_classifier = KNeighborsClassifier()
     knn_classifier.fit(X_train_vectors, y_train)
 
-# Implementasi dengan Streamlit
+# Implementasi
 with implementation:
     st.title("Klasifikasi Sentimen Ulasan Menggunakan KNN")
     st.write("Masukkan ulasan di bawah ini:")
