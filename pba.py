@@ -52,25 +52,6 @@ with data_set_description:
     Stemming dalam pemrosesan bahasa alami (Natural Language Processing/NLP) adalah proses mengubah kata ke dalam bentuk dasarnya atau bentuk kata yang lebih sederhana, yang disebut sebagai “stem”. Stemming bertujuan untuk menghapus infleksi atau imbuhan pada kata sehingga kata-kata yang memiliki akar kata yang sama dapat diidentifikasi sebagai bentuk yang setara.
     """)
     
-    
-    st.write("""5. weather (cuaca) :
-
-    Output (keluaran)
-    """)
-    st.write("""Menggunakan Kolom (input) :
-
-    precipitation
-    tempmax * tempmin
-    wind
-    """)
-    st.write("""Memprediksi kondisi cuaca (output) :
-
-    1. drizzle (gerimis)
-    2. rain (hujan)
-    3. sun (matahari)
-    4. snow (salju)
-    5. fog (kabut)
-    """)
     st.write("###### Aplikasi ini untuk : Weather Prediction (Prediksi Cuaca) ")
     st.write("###### Source Code Aplikasi ada di Github anda bisa acces di link : https://github.com/HambaliFitrianto/Aplikasi-Web-Data-Mining-Weather-Prediction")
     st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6282138614807 ")
