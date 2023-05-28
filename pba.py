@@ -9,21 +9,18 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.neighbors import KNeighborsClassifier
 import nltk
-nltk.download('punkt')
-import string 
-import re
 from nltk.tokenize import RegexpTokenizer
-from nltk.tokenize import word_tokenize
 from nltk.probability import FreqDist
 from nltk.corpus import stopwords
-nltk.download('stopwords')
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
+import string 
+import re
 import swifter
 import pickle
 import ast
-from sklearn.model_selection import train_test_split
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score
+
+nltk.download('punkt')
+nltk.download('stopwords')
 
 st.title("PEMROSESAN BAHASA ALAMI A")
 st.write("### Dosen Pengampu : Dr. FIKA HASTARITA RACHMAN, ST., M.Eng")
@@ -240,8 +237,8 @@ with modeling:
             return []
 
     Data_ulasan["ulasan_list"] = Data_ulasan["ulasan"].apply(convert_text_list)
-    print(Data_ulasan["ulasan_list"][90])
-    print("\ntype: ", type(Data_ulasan["ulasan_list"][90]))
+    st.write(Data_ulasan["ulasan_list"][90])
+    st.write("\ntype: ", type(Data_ulasan["ulasan_list"][90]))
 
     # Ekstraksi fitur menggunakan TF-IDF
     def calculate_tf(corpus):
