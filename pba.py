@@ -13,6 +13,7 @@ from sklearn.neighbors import KNeighborsClassifier
 
 st.title("PEMROSESAN BAHASA ALAMI A")
 st.write("### Dosen Pengampu : Dr. FIKA HASTARITA RACHMAN, ST., M.Eng")
+st.write("#### Kelompok : 5")
 st.write("##### Hambali Fitrianto - 200411100074")
 st.write("##### Pramudya Dwi Febrianto - 200411100042")
 st.write("##### Febrian Achmad Syahputra - 200411100106")
