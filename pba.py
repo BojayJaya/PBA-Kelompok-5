@@ -323,17 +323,15 @@ with modeling:
 
 # Implementasi
 with implementation:
+# Implementasi dengan Streamlit
     st.title("Klasifikasi Sentimen Ulasan Menggunakan KNN")
     st.write("Masukkan ulasan di bawah ini:")
-    input_text = st.text_input("Ulasan")
+    input_text = st.text_input("Silahkan Masukkan Ulasan Anda :")
 
     if st.button("Prediksi"):
         # Mengubah input ulasan menjadi vektor
-        input_vector = text_to_vector(input_text, tf_train)
-        if isinstance(input_vector, dict):
-            input_vector = np.array(list(input_vector.values())).reshape(1, -1)
-        else:
-            input_vector = np.array(input_vector).reshape(1, -1)
+        input_vector = text_to_vector(input_text, tfidf_dict)
+        input_vector = np.array(input_vector).reshape(1, -1)
 
         # Melakukan prediksi pada input ulasan
         predicted_label = knn_classifier.predict(input_vector)
