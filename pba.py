@@ -183,6 +183,7 @@ with preprocessing:
         return [word for word in words if word not in list_stopwords]
 
     dataset['ulasan_tokens_WSW'] = dataset['ulasan_tokens'].apply(stopwords_removal)
+    st.write(dataset['ulasan_tokens_WSW'].head())
 
     st.write("Stemming:")
     factory = StemmerFactory()
