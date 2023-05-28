@@ -154,21 +154,6 @@ with modeling:
         # destree = st.checkbox('Decission Tree')
         submitted = st.form_submit_button("Submit")
 
-        # NB
-        # GaussianNB(priors=None)
-
-        # Fitting Naive Bayes Classification to the Training set with linear kernel
-        # gaussian = GaussianNB()
-        # gaussian = gaussian.fit(training, training_label)
-
-        # Predicting the Test set results
-        # y_pred = gaussian.predict(test)
-    
-        # y_compare = np.vstack((test_label,y_pred)).T
-        # gaussian.predict_proba(test)
-        # gaussian_akurasi = round(100 * accuracy_score(test_label, y_pred))
-        # akurasi = 10
-
         #KNN
         K=5
         knn=KNeighborsClassifier(n_neighbors=K)
@@ -177,27 +162,13 @@ with modeling:
 
         knn_akurasi = round(100 * accuracy_score(test_label,knn_predict))
 
-        #Decission Tree
-        # dt = DecisionTreeClassifier()
-        # dt.fit(training, training_label)
-        # prediction
-        # dt_pred = dt.predict(test)
-        #Accuracy
-        # dt_akurasi = round(100 * accuracy_score(test_label,dt_pred))
-
         if submitted :
-            # if naive :
-            #     st.write('Model Naive Bayes accuracy score: {0:0.2f}'. format(gaussian_akurasi))
             if k_nn :
                 st.write("Model KNN accuracy score : {0:0.2f}" . format(knn_akurasi))
-            # if destree :
-            #     st.write("Model Decision Tree accuracy score : {0:0.2f}" . format(dt_akurasi))
-        
+                
         grafik = st.form_submit_button("Grafik akurasi semua model")
         if grafik:
             data = pd.DataFrame({
-                # 'Akurasi' : [gaussian_akurasi, knn_akurasi, dt_akurasi],
-                # 'Model' : ['Gaussian Naive Bayes', 'K-NN', 'Decission Tree'],
                 'Akurasi' : [knn_akurasi],
                 'Model' : ['KNN'],
             })
@@ -243,40 +214,3 @@ with implementation:
             st.write('Menggunakan Pemodelan :', model)
 
             st.write(input_pred)
-# with implementation:
-#     with st.form("my_form"):
-#         st.subheader("Implementasi")
-#         Precipitation = st.number_input('Masukkan preciptation (curah hujan) : ')
-#         Temp_Max = st.number_input('Masukkan tempmax (suhu maks) : ')
-#         Temp_Min = st.number_input('Masukkan tempmin (suhu min) : ')
-#         Wind = st.number_input('Masukkan wind (angin) : ')
-#         model = st.selectbox('Pilihlah model yang akan anda gunakan untuk melakukan prediksi?',
-#                 ('Gaussian Naive Bayes', 'K-NN', 'Decision Tree'))
-
-#         prediksi = st.form_submit_button("Submit")
-#         if prediksi:
-#             inputs = np.array([
-#                 Precipitation,
-#                 Temp_Max,
-#                 Temp_Min,
-#                 Wind
-#             ])
-
-#             df_min = X.min()
-#             df_max = X.max()
-#             input_norm = ((inputs - df_min) / (df_max - df_min))
-#             input_norm = np.array(input_norm).reshape(1, -1)
-
-#             if model == 'Gaussian Naive Bayes':
-#                 mod = gaussian
-#             if model == 'K-NN':
-#                 mod = knn 
-#             if model == 'Decision Tree':
-#                 mod = dt
-
-#             input_pred = mod.predict(input_norm)
-
-#             st.subheader('Hasil Prediksi')
-#             st.write('Menggunakan Pemodelan :', model)
-
-#             st.write(input_pred)
