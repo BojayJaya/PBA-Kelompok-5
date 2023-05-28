@@ -9,18 +9,19 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.neighbors import KNeighborsClassifier
 import nltk
-from nltk.tokenize import RegexpTokenizer
-from nltk.probability import FreqDist
-from nltk.corpus import stopwords
-from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
+nltk.download('punkt')
 import string 
 import re
-import swifter
+from nltk.tokenize import RegexpTokenizer
+from nltk.tokenize import word_tokenize
+from nltk.probability import FreqDist
+from nltk.corpus import stopwords
+nltk.download('stopwords')
+from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 import pickle
 import ast
-
-nltk.download('punkt')
-nltk.download('stopwords')
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
 
 st.title("PEMROSESAN BAHASA ALAMI A")
 st.write("### Dosen Pengampu : Dr. FIKA HASTARITA RACHMAN, ST., M.Eng")
@@ -196,15 +197,15 @@ with preprocessing:
             if term not in term_dict:
                 term_dict[term] = ' '
 
-    st.write(len(term_dict))
-    st.write("------------------------")
+    #st.write(len(term_dict))
+    #st.write("------------------------")
 
     for term in term_dict:
         term_dict[term] = stemmed_wrapper(term)
         st.write(term, ":", term_dict[term])
 
-    st.write(term_dict)
-    st.write("------------------------")
+    #st.write(term_dict)
+    #st.write("------------------------")
 
     def get_stemmed_term(document):
         return [term_dict[term] for term in document]
