@@ -159,12 +159,12 @@ with preprocessing:
         return tokens
     
     dataset['ulasan_tokens'] = dataset['ulasan'].apply(word_tokenize_wrapper)
+    st.write(dataset['ulasan_tokens'].head())
     
     def freqDist_wrapper(text):
         return FreqDist(text)
     
     dataset['ulasan_tokens_fdist'] = dataset['ulasan_tokens'].apply(freqDist_wrapper)
-    st.write(dataset['ulasan_tokens_fdist'].head())
     
     st.write("Filtering (Stopword Removal):")
     list_stopwords = stopwords.words('indonesian')
