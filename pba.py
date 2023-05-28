@@ -12,9 +12,10 @@ from sklearn.neighbors import KNeighborsClassifier
 # from sklearn.tree import DecisionTreeClassifier
 
 st.title("PEMROSESAN BAHASA ALAMI")
-st.write("##### Nama  : Hambali Fitrianto")
-st.write("##### Nim   : 200411100074")
 st.write("##### Kelas : Pemrosesan BahasaAlami A")
+st.write("##### Hambali Fitrianto - 200411100074")
+st.write("##### Pramudya Dwi Febrianto - 200411100042")
+st.write("##### Febrian Achmad Syahputra - 200411100106")
 
 #Navbar
 data_set_description, upload_data, preprocessing, modeling, implementation = st.tabs(["Data Set Description", "Upload Data", "Preprocessing", "Modeling", "Implementation"])
