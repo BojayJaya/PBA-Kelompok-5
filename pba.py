@@ -27,22 +27,24 @@ df = pd.read_csv('https://raw.githubusercontent.com/HambaliFitrianto/Aplikasi-We
 with data_set_description:
     st.write("###### Judul : ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN) ")
     st.write("""###### Penjelasan Prepocessing Data : """)
-    st.write("""1. preciptation (curah hujan) :
+    st.write("""1. Case Folding :
 
     Curah hujan : jumlah hujan yang turun pada suatu daerah dalam waktu tertentu. untuk menentukan besarnya curah hujan, membutuhkan suatu alat ukur. Alat pengukur curah hujan disebut dengan fluviograf dan satuan curah hujan yang biasanya digunakan adalah milimeter (mm).
     """)
-    st.write("""2. tempmax (suhu maks) :
+    st.write("""2. Tokenize) :
 
     Suhu Maksimum : Suhu yang terbaca dari termometer maksimum di ada di dataset
     """)
-    st.write("""3. tempmin (suhu min) :
+    st.write("""3. Filtering (Stopword Removal) :
 
     Suhu Minimum : Suhu yang terbaca dari termometer minimum di ada di dataset
     """)
-    st.write("""4. wind (angin) :
+    st.write("""4. Stemming :
 
     Kecepatan angin disebabkan oleh pergerakan angin dari tekanan tinggi ke tekanan rendah, biasanya karena perubahan suhu
     """)
+    
+    
     st.write("""5. weather (cuaca) :
 
     Output (keluaran)
