@@ -330,7 +330,10 @@ with implementation:
     if st.button("Prediksi"):
         # Mengubah input ulasan menjadi vektor
         input_vector = text_to_vector(input_text, tf_train)
-        input_vector = np.array(list(input_vector.values())).reshape(1, -1) if isinstance(input_vector, dict) else input_vector.reshape(1, -1)  # Ubah dimensi vektor
+        if isinstance(input_vector, dict):
+            input_vector = np.array(list(input_vector.values())).reshape(1, -1)
+        else:
+            input_vector = np.array(input_vector).reshape(1, -1)
 
         # Melakukan prediksi pada input ulasan
         predicted_label = knn_classifier.predict(input_vector)
@@ -354,4 +357,3 @@ with implementation:
         st.write(f"Ulasan: {ulasan}")
         st.write(f"Label: {label}")
         st.write()
-
