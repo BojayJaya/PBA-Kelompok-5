@@ -33,7 +33,7 @@ st.write("##### Pramudya Dwi Febrianto - 200411100042")
 st.write("##### Febrian Achmad Syahputra - 200411100106")
 
 #Navbar
-data_set_description, upload_data, preprocessing, ekstraksifitur, modeling, implementation = st.sidebar.beta_columns(6)
+data_set_description, upload_data, preprocessing, ekstraksifitur, modeling, implementation = st.tabs(["Data Set Description", "Upload Data", "Preprocessing", "Tf-Idf", "Modeling", "Implementation"])
 dataset = pd.read_csv("https://raw.githubusercontent.com/Feb11F/dataset/main/dieng_sentiment_pn.csv")
 
 #data_set_description
