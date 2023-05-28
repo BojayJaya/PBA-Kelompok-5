@@ -52,7 +52,47 @@ with data_set_description:
     Stemming dalam pemrosesan bahasa alami (Natural Language Processing/NLP) adalah proses mengubah kata ke dalam bentuk dasarnya atau bentuk kata yang lebih sederhana, yang disebut sebagai “stem”. Stemming bertujuan untuk menghapus infleksi atau imbuhan pada kata sehingga kata-kata yang memiliki akar kata yang sama dapat diidentifikasi sebagai bentuk yang setara.
     """)
     
-    st.write("""###### Penjelasan Prepocessing Data : """)
+    st.write("""###### Penjelasan Ekstraksi Fitur : """)
+    st.write("""TF-IDF :
+    
+    Ditahap akhir dari text preprocessing adalah term-weighting .Term-weighting merupakan proses pemberian bobot term pada dokumen. Pembobotan ini digunakan nantinya oleh algoritma Machine Learning untuk klasifikasi dokumen. Ada beberapa metode yang dapat digunakan, salah satunya adalah TF-IDF (Term Frequency-Inverse Document Frequency).
+    """)
+    st.write("""TF (Term Frequency) :
+    
+    TF (Term Frequency) adalah ukuran yang menggambarkan seberapa sering sebuah kata muncul dalam suatu dokumen. Menghitung TF melibatkan perbandingan jumlah kemunculan kata dengan jumlah kata keseluruhan dalam dokumen.
+    """)
+    st.write("""Perhitungan TF (Term Frequency) :
+    
+    TF(term) = (Jumlah kemunculan term dalam dokumen) / (Jumlah kata dalam dokumen)
+    """)
+    st.write("""DF (Document Frequency) :
+    
+    DF (Document Frequency) adalah ukuran yang menggambarkan seberapa sering sebuah kata muncul dalam seluruh koleksi dokumen. DF menghitung jumlah dokumen yang mengandung kata tersebut.
+    """)
+    st.write("""Perhitungan DF (Document Frequency) :
+    
+    DF(term) = Jumlah dokumen yang mengandung term
+    """)
+    st.write("""IDF (Inverse Document Frequency) :
+    
+    IDF (Inverse Document Frequency) adalah ukuran yang menggambarkan seberapa penting sebuah kata dalam seluruh koleksi dokumen. IDF dihitung dengan mengambil logaritma terbalik dari rasio total dokumen dengan jumlah dokumen yang mengandung kata tersebut. Tujuan IDF adalah memberikan bobot yang lebih besar pada kata-kata yang jarang muncul dalam seluruh koleksi dokumen.
+    """)
+    st.write("""Perhitungan IDF (Inverse Document Frequency) :
+    
+    IDF(term) = log((Total jumlah dokumen) / (DF(term)))
+    """)
+    st.write("""TF-IDF (Term Frequency-Inverse Document Frequency) :
+    
+    TF-IDF (Term Frequency-Inverse Document Frequency) adalah metode yang menggabungkan informasi TF dan IDF. TF-IDF memberikan bobot yang lebih tinggi pada kata-kata yang sering muncul dalam dokumen tertentu (TF tinggi) dan jarang muncul dalam seluruh koleksi dokumen (IDF tinggi). Metode ini digunakan untuk mengevaluasi kepentingan relatif suatu kata dalam konteks dokumen.
+    """)
+    st.write("""Perhitungan TF-IDF (Term Frequency-Inverse Document Frequency) :
+    
+    TF-IDF(term, document) = TF(term, document) * IDF(term)
+    
+    Dalam perhitungan TF-IDF, TF(term, document) adalah nilai TF untuk term dalam dokumen tertentu, dan IDF(term) adalah nilai IDF untuk term di seluruh koleksi dokumen.
+    """)
+    st.write("""Mengubah representasi teks ke dalam vektor :
+    """)
     
     st.write(""" Aplikasi ini untuk : 
     
