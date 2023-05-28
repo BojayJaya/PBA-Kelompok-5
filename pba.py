@@ -33,7 +33,7 @@ with data_set_description:
     
     Dalam case folding, biasanya semua huruf dalam teks dikonversi menjadi huruf kecil dengan menggunakan metode seperti lowercasing. Dengan demikian, perbedaan antara huruf besar dan huruf kecil tidak lagi diperhatikan dalam analisis teks, sehingga memungkinkan untuk mendapatkan hasil yang lebih konsisten dan mengurangi kompleksitas dalam pemrosesan teks.
     """)
-    st.write("""2. Tokenize) :
+    st.write("""2. Tokenize :
 
     Suhu Maksimum : Suhu yang terbaca dari termometer maksimum di ada di dataset
     """)
