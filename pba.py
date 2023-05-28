@@ -220,7 +220,7 @@ with implementation:
     with st.form("my_form"):
         st.subheader("Implementasi")
         Ulasan = st.number_input('Masukkan preciptation (curah hujan) : ')
-        model = st.selectbox('Pilihlah model yang akan anda gunakan untuk melakukan prediksi?',
+        model = st.selectbox('Maukkan Ulasan anda ?',
                 ('KNN'))
 
         prediksi = st.form_submit_button("Submit")
