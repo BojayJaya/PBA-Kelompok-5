@@ -25,9 +25,8 @@ df = pd.read_csv('https://raw.githubusercontent.com/HambaliFitrianto/Aplikasi-We
 
 #data_set_description
 with data_set_description:
-    st.write("###### Data Set Ini Adalah : Weather Prediction (Prediksi Cuaca) ")
-    st.write("###### Sumber Data Set dari Kaggle : https://www.kaggle.com/datasets/ananthr1/weather-prediction")
-    st.write("""###### Penjelasan setiap kolom : """)
+    st.write("###### Judul : ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN) ")
+    st.write("""###### Penjelasan Prepocessing Data : """)
     st.write("""1. preciptation (curah hujan) :
 
     Curah hujan : jumlah hujan yang turun pada suatu daerah dalam waktu tertentu. untuk menentukan besarnya curah hujan, membutuhkan suatu alat ukur. Alat pengukur curah hujan disebut dengan fluviograf dan satuan curah hujan yang biasanya digunakan adalah milimeter (mm).
