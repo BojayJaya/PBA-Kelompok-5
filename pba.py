@@ -221,8 +221,10 @@ with modeling:
     # Memuat data dari file pickle
     with open('data.pickle', 'rb') as file:
         loaded_data = pickle.load(file)
+
     Data_ulasan = pd.DataFrame(loaded_data, columns=["label", "ulasan"])
     Data_ulasan.head()
+
     ulasan = Data_ulasan['ulasan']
     sentimen = Data_ulasan['label']
     X_train, X_test, y_train, y_test = train_test_split(ulasan, sentimen, test_size=0.2, random_state=42)
@@ -300,7 +302,7 @@ with modeling:
         vector = np.zeros(len(tfidf_dict))
         for i, word in enumerate(tfidf_dict):
             if word in words:
-                vector[i] = tfidf_dict[word]
+                vector[i] = vector[i] = tfidf_dict[word]
         return vector
 
     X_train_vectors = [text_to_vector(document, tf_train) for document in X_train]
