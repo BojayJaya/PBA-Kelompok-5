@@ -213,7 +213,6 @@ with preprocessing:
         return [term_dict[term] for term in document]
 
     dataset['ulasan_tokens_stemmed'] = dataset['ulasan_tokens_WSW'].apply(get_stemmed_term)
-#     st.write(dataset['ulasan_tokens_stemmed'].head())
 
 
 with modeling:
