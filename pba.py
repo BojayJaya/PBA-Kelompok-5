@@ -302,35 +302,62 @@ with ekstraksi_fitur:
 
 # Implementasi
 with implementation:
-# Implementasi dengan Streamlit
-    st.title("Klasifikasi Sentimen Ulasan Menggunakan KNN")
-    st.write("Masukkan ulasan di bawah ini:")
-    input_text = st.text_input("Silahkan Masukkan Ulasan Anda :")
+    def get_stemmed_term(document):
+        return [term_dict[term] for term in document]
 
-    if st.button("Prediksi"):
-        # Mengubah input ulasan menjadi vektor
-        input_vector = text_to_vector(input_text, tfidf_dict)
-        input_vector = np.array(input_vector).reshape(1, -1)
+    with open('data.pickle', 'wb') as file:
+        pickle.dump(dataset, file)
 
-        # Melakukan prediksi pada input ulasan
-        predicted_label = knn_classifier.predict(input_vector)
+    # Memuat data dari file pickle
+    with open('data.pickle', 'rb') as file:
+        loaded_data = pickle.load(file)
 
-        # Menampilkan hasil prediksi
-        st.write("Hasil Prediksi:")
-        st.write(f"Ulasan: {input_text}")
-        st.write(f"Label: {predicted_label[0]}")
+    Data_ulasan = pd.DataFrame(loaded_data, columns=["label", "ulasan"])
+    Data_ulasan.head()
 
-    # Menghitung akurasi pada data uji
-    y_pred = knn_classifier.predict(X_test_vectors)
-    accuracy = accuracy_score(y_test, y_pred)
+    ulasan = Data_ulasan['ulasan']
+    sentimen = Data_ulasan['label']
+    X_train, X_test, y_train, y_test = train_test_split(ulasan, sentimen, test_size=0.2, random_state=42)
 
-    # Menampilkan akurasi
-    st.write("Akurasi: {:.2f}%".format(accuracy * 100))
+    def convert_text_list(texts):
+        try:
+            texts = ast.literal_eval(texts)
+            if isinstance(texts, list):
+                return texts
+            else:
+                return []
+        except (SyntaxError, ValueError):
+            return []
 
-    # Menampilkan label prediksi
-    st.write("Label Prediksi:")
-    for i, (label, ulasan) in enumerate(zip(y_pred, X_test)):
-        st.write(f"Data Uji {i+1}:")
-        st.write(f"Ulasan: {ulasan}")
-        st.write(f"Label: {label}")
-        st.write()
+    Data_ulasan["ulasan_list"] = Data_ulasan["ulasan"].apply(convert_text_list)
+    st.write(Data_ulasan["ulasan_list"][90])
+
+
+    # Ambil inputan ulasan dari pengguna
+    input_ulasan = st.text_input("Masukkan ulasan:")
+
+    # Preprocessing ulasan
+    input_ulasan = input_ulasan.lower()
+    input_ulasan = hapus_tweet_khusus(input_ulasan)
+    input_ulasan = hapus_nomor(input_ulasan)
+    input_ulasan = hapus_tanda_baca(input_ulasan)
+    input_ulasan = hapus_whitespace_LT(input_ulasan)
+    input_ulasan = hapus_whitespace_multiple(input_ulasan)
+    input_ulasan = hapus_single_char(input_ulasan)
+    input_ulasan_tokens = word_tokenize_wrapper(input_ulasan)
+    input_ulasan_tokens_WSW = stopwords_removal(input_ulasan_tokens)
+    input_ulasan_tokens_stemmed = get_stemmed_term(input_ulasan_tokens)
+
+    # Load model yang telah dilatih sebelumnya
+    with open('model.pickle', 'rb') as file:
+        loaded_model = pickle.load(file)
+
+    # Lakukan prediksi sentimen menggunakan model
+    input_ulasan_vectorized = tfidf_vectorizer.transform([' '.join(input_ulasan_tokens_stemmed)])
+    prediction = loaded_model.predict(input_ulasan_vectorized)
+
+    # Tampilkan hasil prediksi
+    if prediction == 0:
+        st.write("Sentimen: Negatif")
+    else:
+        st.write("Sentimen: Positif")
