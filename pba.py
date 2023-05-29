@@ -6,7 +6,7 @@ import altair as alt
 from sklearn.preprocessing import MinMaxScaler
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 from sklearn.neighbors import KNeighborsClassifier
 import nltk
 nltk.download('punkt')
@@ -85,10 +85,15 @@ with ekstraksi_fitur:
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     # ... (Kode ekstraksi fitur lainnya tidak berubah)
+
 with implementation:
     st.subheader("Implementation")
 
     # ... (Kode implementasi lainnya)
+
+    # Penambahan kode untuk transformasi fitur dan pelatihan model K-NN
+    user_input_transformed = vectorizer.transform([user_input])
+    user_input_transformed = scaler.transform(user_input_transformed)
 
     # Menginisialisasi dan melatih model klasifikasi K-NN
     k = st.slider("Jumlah Tetangga (K)", min_value=1, max_value=10, step=1, value=5)
@@ -111,4 +116,42 @@ with implementation:
     cr = classification_report(y_test, y_pred)
     st.write("Classification Report:")
     st.write(cr)
+    
+with implementation:
+    st.subheader("Implementation")
+
+    # ... (Kode implementasi lainnya)
+
+    # Penambahan kode untuk transformasi fitur dan pelatihan model K-NN
+    user_input_transformed = vectorizer.transform([user_input])
+    user_input_transformed = scaler.transform(user_input_transformed)
+
+    # Menginisialisasi dan melatih model klasifikasi K-NN
+    k = st.slider("Jumlah Tetangga (K)", min_value=1, max_value=10, step=1, value=5)
+    knn = KNeighborsClassifier(n_neighbors=k)
+    knn.fit(X_train_transformed, y_train)
+
+    # Memprediksi label ulasan pada data test
+    y_pred = knn.predict(X_test_transformed)
+
+    # Menghitung akurasi model
+    accuracy = accuracy_score(y_test, y_pred)
+    st.write("Akurasi Model:", accuracy)
+
+    # Menampilkan confusion matrix
+    cm = confusion_matrix(y_test, y_pred)
+    st.write("Confusion Matrix:")
+    st.write(cm)
+
+    # Menampilkan classification report
+    cr = classification_report(y_test, y_pred)
+    st.write("Classification Report:")
+    st.write(cr)
+
+    # Memprediksi label ulasan pada inputan pengguna
+    user_input_pred = knn.predict(user_input_transformed)
+
+    # Menampilkan hasil prediksi
+    st.write("Hasil Prediksi untuk Inputan Ulasan:")
+    st.write(user_input_pred)
 
