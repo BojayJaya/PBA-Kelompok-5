@@ -163,7 +163,7 @@ with preprocessing:
     def stopwords_removal(words):
         return [word for word in words if word not in list_stopwords]
 
-    dataset['ulasan_tokens_WSW'] = dataset['ulasan_tokens'].apply(stopwords_removal)
+#     dataset['ulasan_tokens_WSW'] = dataset['ulasan_tokens'].apply(stopwords_removal)
 
     factory = StemmerFactory()
     stemmer = factory.create_stemmer()
@@ -173,7 +173,7 @@ with preprocessing:
 
     term_dict = {}
 
-    for document in dataset['ulasan_tokens_WSW']:
+    for document in dataset['ulasan']:
         for term in document:
             if term not in term_dict:
                 term_dict[term] = ' '
