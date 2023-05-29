@@ -85,73 +85,31 @@ with ekstraksi_fitur:
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     # ... (Kode ekstraksi fitur lainnya tidak berubah)
-
-with implementation:
-    st.subheader("Implementation")
-
-    # ... (Kode implementasi lainnya)
-
-    # Penambahan kode untuk transformasi fitur dan pelatihan model K-NN
-    user_input_transformed = vectorizer.transform([user_input])
-    user_input_transformed = scaler.transform(user_input_transformed)
-
-    # Menginisialisasi dan melatih model klasifikasi K-NN
-    k = st.slider("Jumlah Tetangga (K)", min_value=1, max_value=10, step=1, value=5)
-    knn = KNeighborsClassifier(n_neighbors=k)
-    knn.fit(X_train_transformed, y_train)
-
-    # Memprediksi label ulasan pada data test
-    y_pred = knn.predict(X_test_transformed)
-
-    # Menghitung akurasi model
-    accuracy = accuracy_score(y_test, y_pred)
-    st.write("Akurasi Model:", accuracy)
-
-    # Menampilkan confusion matrix
-    cm = confusion_matrix(y_test, y_pred)
-    st.write("Confusion Matrix:")
-    st.write(cm)
-
-    # Menampilkan classification report
-    cr = classification_report(y_test, y_pred)
-    st.write("Classification Report:")
-    st.write(cr)
     
 with implementation:
     st.subheader("Implementation")
 
     # ... (Kode implementasi lainnya)
 
-    # Penambahan kode untuk transformasi fitur dan pelatihan model K-NN
-    user_input_transformed = vectorizer.transform([user_input])
-    user_input_transformed = scaler.transform(user_input_transformed)
+    # Penambahan tahap processing saat ada inputan ulasan
+    user_input = st.text_input("Masukkan ulasan:")
+    if user_input:
+        user_input = user_input.lower()
+        user_input = hapus_tweet_khusus(user_input)
+        user_input = hapus_nomor(user_input)
+        user_input = hapus_tanda_baca(user_input)
+        user_input = hapus_whitespace_LT(user_input)
+        user_input = hapus_whitespace_multiple(user_input)
+        user_input = hapus_single_char(user_input)
+        user_input_tokens = word_tokenize_wrapper(user_input)
+        user_input_tokens_WSW = stopwords_removal(user_input_tokens)
+        user_input_tokens_stemmed = get_stemmed_term(user_input_tokens_WSW)
 
-    # Menginisialisasi dan melatih model klasifikasi K-NN
-    k = st.slider("Jumlah Tetangga (K)", min_value=1, max_value=10, step=1, value=5)
-    knn = KNeighborsClassifier(n_neighbors=k)
-    knn.fit(X_train_transformed, y_train)
+        # Mengubah input pengguna menjadi representasi fitur yang sesuai
+        user_input_transformed = tfidf_vectorizer.transform([' '.join(user_input_tokens_stemmed)])
 
-    # Memprediksi label ulasan pada data test
-    y_pred = knn.predict(X_test_transformed)
+        # Memprediksi label ulasan pada data input pengguna
+        y_pred = knn.predict(user_input_transformed)
 
-    # Menghitung akurasi model
-    accuracy = accuracy_score(y_test, y_pred)
-    st.write("Akurasi Model:", accuracy)
-
-    # Menampilkan confusion matrix
-    cm = confusion_matrix(y_test, y_pred)
-    st.write("Confusion Matrix:")
-    st.write(cm)
-
-    # Menampilkan classification report
-    cr = classification_report(y_test, y_pred)
-    st.write("Classification Report:")
-    st.write(cr)
-
-    # Memprediksi label ulasan pada inputan pengguna
-    user_input_pred = knn.predict(user_input_transformed)
-
-    # Menampilkan hasil prediksi
-    st.write("Hasil Prediksi untuk Inputan Ulasan:")
-    st.write(user_input_pred)
-
+        # Menampilkan hasil prediksi
+        st.write("Prediksi Sentimen Ulasan:", y_pred)
