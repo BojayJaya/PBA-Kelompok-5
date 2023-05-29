@@ -102,7 +102,6 @@ with description:
 with preprocessing:
     st.subheader("Preprocessing Data")
     
-    st.write("Case Folding:")
     dataset['ulasan'] = dataset['ulasan'].str.lower()
     st.write("Case Folding Result:")
     st.write(dataset['ulasan'].head())
