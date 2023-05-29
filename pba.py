@@ -101,7 +101,7 @@ with description:
 
 with preprocessing:
     st.subheader("Preprocessing Data")
-    
+
     dataset['ulasan'] = dataset['ulasan'].str.lower()
     st.write("Case Folding Result:")
     st.write(dataset['ulasan'].head())
@@ -233,7 +233,6 @@ with ekstraksi_fitur:
     st.write("\ntype: ", type(Data_ulasan["ulasan_list"][90]))
 
     # Ekstraksi fitur menggunakan TF-IDF
-    st.write('Menghitung TF')
     def calculate_tf(corpus):
         tf_dict = {}
         for document in corpus:
@@ -280,7 +279,6 @@ with ekstraksi_fitur:
     tf_train = calculate_tfidf(calculate_tf(X_train), calculate_idf(X_train))
     tf_test = calculate_tfidf(calculate_tf(X_test), calculate_idf(X_train))
 
-    st.write("Term Frequency-Inverse Document Frequency (TF-IDF):")
     for i, document in enumerate(X_train):
         tfidf_dict = calculate_tfidf(calculate_tf([document]), calculate_idf(X_train))
         st.write(f"Document {i+1}:")
@@ -302,10 +300,27 @@ with ekstraksi_fitur:
     X_train_vectors = [text_to_vector(document, tfidf_dict) for document in X_train]
     X_test_vectors = [text_to_vector(document, tfidf_dict) for document in X_test]
 
-    print("Vector Representation (TF-IDF):")
-    for i, vector in enumerate(X_train_vectors):
-        print(f"Document {i+1}: {vector}")
-    print()
+    # Menampilkan Term Frequency (TF)
+    st.write("Term Frequency (TF):")
+    for i, document in enumerate(X_train):
+        tf_dict = calculate_tf([document])
+        st.write(f"Document {i+1}:")
+        for word, tf in tf_dict.items():
+            st.write(f"{word}: {tf}")
+        st.write()
+
+    # Menampilkan Document Frequency (DF)
+    st.write("Document Frequency (DF):")
+    df_train = calculate_df(X_train)
+    for word, df in df_train.items():
+        st.write(f"{word}: {df}")
+    st.write()
+
+    # Menampilkan Inverse Document Frequency (IDF)
+    st.write("Inverse Document Frequency (IDF):")
+    for word, idf in idf_train.items():
+        st.write(f"{word}: {idf}")
+    st.write()
 
     # Klasifikasi menggunakan KNN
     knn_classifier = KNeighborsClassifier(n_neighbors=3)
