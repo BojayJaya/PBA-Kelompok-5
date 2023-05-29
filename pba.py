@@ -1,16 +1,18 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import string
-import re
+import nltk
 from nltk.tokenize import RegexpTokenizer
+from nltk.tokenize import word_tokenize
 from nltk.probability import FreqDist
 from nltk.corpus import stopwords
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 import pickle
-from sklearn.model_selection import train_test_split
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.svm import LinearSVC
+import string
+import re
+
+# Download stopwords
+nltk.download('stopwords')
 
 st.title("PEMROSESAN BAHASA ALAMI A")
 st.write("### Dosen Pengampu: Dr. FIKA HASTARITA RACHMAN, ST., M.Eng")
@@ -50,18 +52,6 @@ def word_tokenize_wrapper(text):
     tokens = tokenizer.tokenize(text)
     return tokens
 
-def freqDist_wrapper(text):
-    return FreqDist(text)
-
-list_stopwords = stopwords.words('indonesian')
-list_stopwords.extend(["yg", "dg", "rt", "dgn", "ny", "d", 'klo', 'kalo', 'amp', 'biar', 'bikin', 'bilang',
-                        'gak', 'ga', 'krn', 'nya', 'nih', 'sih', 'si', 'tau', 'tdk', 'tuh', 'utk', 'ya',
-                        'jd', 'jgn', 'sdh', 'aja', 'n', 't', 'nyg', 'hehe', 'pen', 'u', 'nan', 'loh', 'rt',
-                        '&amp', 'yah'])
-
-txt_stopword = pd.read_csv("https://raw.githubusercontent.com/masdevid/ID-Stopwords/master/id.stopwords.02.01.2016.txt", names=["stopwords"], header=None)
-
-list_stopwords.extend(txt_stopword["stopwords"][0].split(' '))
 list_stopwords = set(list_stopwords)
 
 def stopwords_removal(words):
@@ -69,9 +59,6 @@ def stopwords_removal(words):
 
 factory = StemmerFactory()
 stemmer = factory.create_stemmer()
-
-def stemmed_wrapper(term):
-    return stemmer.stem(term)
 
 term_dict = {}
 
@@ -128,7 +115,7 @@ input_ulasan = hapus_whitespace_multiple(input_ulasan)
 input_ulasan = hapus_single_char(input_ulasan)
 input_ulasan_tokens = word_tokenize_wrapper(input_ulasan)
 input_ulasan_tokens_WSW = stopwords_removal(input_ulasan_tokens)
-input_ulasan_tokens_stemmed = get_stemmed_term(input_ulasan_tokens)
+input_ulasan_tokens_stemmed = get_stemmed_term(input_ulasan_tokens_WSW)
 
 # Load model yang telah dilatih sebelumnya
 with open('model.pickle', 'rb') as file:
