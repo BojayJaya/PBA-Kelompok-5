@@ -43,11 +43,6 @@ if submit:
         stem = stemmer.stem(slang)
         return lower_case_isi, clean_symbols, slang, stem
 
-    # Kamus
-    with open('combined_slang_words.txt') as f:
-        data = f.read()
-    slang_dict = json.loads(data)
-
     # Load data.pickle from GitHub
     url = 'https://github.com/BojayJaya/PBA-Kelompok-5/blob/main/data.pickle'
     response = requests.get(url)
