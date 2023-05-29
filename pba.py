@@ -20,6 +20,8 @@ nltk.download('stopwords')
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 import pickle
 import ast
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
 
 st.title("PEMROSESAN BAHASA ALAMI A")
 st.write("### Dosen Pengampu : Dr. FIKA HASTARITA RACHMAN, ST., M.Eng")
@@ -28,64 +30,174 @@ st.write("##### Hambali Fitrianto - 200411100074")
 st.write("##### Pramudya Dwi Febrianto - 200411100042")
 st.write("##### Febrian Achmad Syahputra - 200411100106")
 
-#Navbar
-ekstraksi_fitur, implementation = st.tabs(["Ekstraksi Fitur", "Implementation"])
-dataset = pd.read_csv("https://raw.githubusercontent.com/Feb11F/dataset/main/dieng_sentiment_pn.csv")
+# Load dataset
+dataset = pd.read_csv("data.csv")
 
-with ekstraksi_fitur:
-    st.write("Menyimpan data hasil preprocessing ke pickle")
+dataset['ulasan'] = dataset['ulasan'].str.lower()
+st.write("Case Folding Result:")
+st.write(dataset['ulasan'].head())
 
-# Implementasi dengan Streamlit
-with implementation:
-    st.subheader("Preprocessing Data")
+st.write("Tokenize:")
+def hapus_tweet_khusus(text):
+    text = text.replace('\\t', " ").replace('\\n', " ").replace('\\u', " ").replace('\\', "")
+    text = text.encode('ascii', 'replace').decode('ascii')
+    text = ' '.join(re.sub("([@#][A-Za-z0-9]+)|(\w+:\/\/\S+)", " ", text).split())
+    return text.replace("http://", " ").replace("https://", " ")
 
-    # Fungsi untuk preprocessing ulasan
-    def preprocess_text(text):
-        text = text.lower()
-        text = hapus_tweet_khusus(text)
-        text = hapus_nomor(text)
-        text = hapus_tanda_baca(text)
-        text = hapus_whitespace_LT(text)
-        text = hapus_whitespace_multiple(text)
-        text = hapus_single_char(text)
-        tokens = word_tokenize_wrapper(text)
-        tokens = stopwords_removal(tokens)
-        stemmed_tokens = get_stemmed_term(tokens)
-        return stemmed_tokens
+dataset['ulasan'] = dataset['ulasan'].apply(hapus_tweet_khusus)
 
-    st.write("Masukkan ulasan di bawah ini:")
-    input_text = st.text_input("Silahkan Masukkan Ulasan Anda :")
+def hapus_nomor(text):
+    return re.sub(r"\d+", "", text)
 
-    if st.button("Prediksi"):
-        # Preprocessing ulasan input
-        processed_text = preprocess_text(input_text)
+dataset['ulasan'] = dataset['ulasan'].apply(hapus_nomor)
 
-        # Mengubah input ulasan menjadi vektor
-        input_vector = text_to_vector(' '.join(processed_text), tfidf_dict)
-        input_vector = np.array(input_vector).reshape(1, -1)
+def hapus_tanda_baca(text):
+    return text.translate(str.maketrans("", "", string.punctuation))
 
-        # Melakukan prediksi pada input ulasan
-        predicted_label = knn_classifier.predict(input_vector)
+dataset['ulasan'] = dataset['ulasan'].apply(hapus_tanda_baca)
 
-        # Menampilkan hasil prediksi
-        st.write("Hasil Prediksi:")
-        st.write(f"Ulasan: {input_text}")
-        st.write(f"Label: {predicted_label[0]}")
+def hapus_whitespace_LT(text):
+    return text.strip()
 
-    # Melakukan ekstraksi fitur pada data uji
-    X_test = dataset['ulasan']
-    y_test = dataset['label']
-    
-    def extract_features(text, tfidf_dict):
-    features = []
-    for sentence in text:
-        tokens = preprocess_text(sentence)
-        vector = text_to_vector(' '.join(tokens), tfidf_dict)
-        features.append(vector)
-    return features
+dataset['ulasan'] = dataset['ulasan'].apply(hapus_whitespace_LT)
 
-    # Melakukan ekstraksi fitur pada data uji
-    X_test = dataset['ulasan']
-    y_test = dataset['label']
-    X_test_vectors = extract_features(X_test, tfidf_dict)
+def hapus_whitespace_multiple(text):
+    return re.sub('\s+', ' ', text)
 
+dataset['ulasan'] = dataset['ulasan'].apply(hapus_whitespace_multiple)
+
+def hapus_single_char(text):
+    return re.sub(r"\b[a-zA-Z]\b", "", text)
+
+dataset['ulasan'] = dataset['ulasan'].apply(hapus_single_char)
+
+def word_tokenize_wrapper(text):
+    tokenizer = RegexpTokenizer(r'dataran\s+tinggi|jawa\s+tengah|[\w\']+')
+    tokens = tokenizer.tokenize(text)
+    return tokens
+
+dataset['ulasan_tokens'] = dataset['ulasan'].apply(word_tokenize_wrapper)
+st.write(dataset['ulasan_tokens'].head())
+
+def freqDist_wrapper(text):
+    return FreqDist(text)
+
+st.write(dataset['ulasan_tokens_fdist'].head())
+
+st.write("Filtering (Stopword Removal):")
+list_stopwords = stopwords.words('indonesian')
+list_stopwords.extend(["yg", "dg", "rt", "dgn", "ny", "d", 'klo', 'kalo', 'amp', 'biar', 'bikin', 'bilang',
+                        'gak', 'ga', 'krn', 'nya', 'nih', 'sih', 'si', 'tau', 'tdk', 'tuh', 'utk', 'ya',
+                        'jd', 'jgn', 'sdh', 'aja', 'n', 't', 'nyg', 'hehe', 'pen', 'u', 'nan', 'loh', 'rt',
+                        '&amp', 'yah'])
+
+txt_stopword = pd.read_csv("https://raw.githubusercontent.com/masdevid/ID-Stopwords/master/id.stopwords.02.01.2016.txt", names=["stopwords"], header=None)
+
+list_stopwords.extend(txt_stopword["stopwords"][0].split(' '))
+list_stopwords = set(list_stopwords)
+
+def stopwords_removal(words):
+    return [word for word in words if word not in list_stopwords]
+
+dataset['ulasan_tokens_WSW'] = dataset['ulasan_tokens'].apply(stopwords_removal)
+st.write(dataset['ulasan_tokens_WSW'].head())
+
+st.write("Stemming:")
+factory = StemmerFactory()
+stemmer = factory.create_stemmer()
+
+def stemmed_wrapper(term):
+    return stemmer.stem(term)
+
+term_dict = {}
+
+for document in dataset['ulasan_tokens_WSW']:
+    for term in document:
+        if term not in term_dict:
+            term_dict[term] = ' '
+
+st.write(len(term_dict))
+st.write("------------------------")
+
+for term in term_dict:
+    term_dict[term] = stemmed_wrapper(term)
+    st.write(term, ":", term_dict[term])
+
+st.write(term_dict)
+st.write("------------------------")
+
+def get_stemmed_term(document):
+    return [term_dict[term] for term in document]
+
+dataset['ulasan_tokens_stemmed'] = dataset['ulasan_tokens_WSW'].apply(get_stemmed_term)
+st.write(dataset['ulasan_tokens_stemmed'].head())
+
+with open('data.pickle', 'wb') as file:
+    pickle.dump(dataset, file)
+
+# Memuat data dari file pickle
+with open('data.pickle', 'rb') as file:
+    loaded_data = pickle.load(file)
+
+Data_ulasan = pd.DataFrame(loaded_data, columns=["label", "ulasan"])
+Data_ulasan.head()
+
+ulasan = Data_ulasan['ulasan']
+sentimen = Data_ulasan['label']
+X_train, X_test, y_train, y_test = train_test_split(ulasan, sentimen, test_size=0.2, random_state=42)
+
+def convert_text_list(texts):
+    try:
+        texts = ast.literal_eval(texts)
+        if isinstance(texts, list):
+            return texts
+        else:
+            return []
+    except (SyntaxError, ValueError):
+        return []
+
+Data_ulasan["ulasan_list"] = Data_ulasan["ulasan"].apply(convert_text_list)
+st.write(Data_ulasan["ulasan_list"][90])
+st.write("\ntype: ", type(Data_ulasan["ulasan_list"][90]))
+
+# Ekstraksi fitur menggunakan TF-IDF
+def calculate_tf(corpus):
+    tf_dict = {}
+    for document in X_train:
+        words = document.split()
+        for word in words:
+            if word not in tf_dict:
+                tf_dict[word] = 1
+            else:
+                tf_dict[word] += 1
+
+# Calculate Term Frequency (TF)
+tf_dict = {term: count/len(X_train) for term, count in tf_dict.items()}
+
+st.write("Term Frequency (TF):")
+st.write(tf_dict)
+
+# Ekstraksi fitur menggunakan TF-IDF
+tfidf = TfidfVectorizer(sublinear_tf=True, min_df=5, norm='l2', encoding='latin-1', ngram_range=(1, 2))
+features_train = tfidf.fit_transform(X_train).toarray()
+labels_train = y_train
+
+st.write("Features Train Shape:")
+st.write(features_train.shape)
+
+features_test = tfidf.transform(X_test).toarray()
+labels_test = y_test
+
+# Model Training
+model = LinearSVC()
+model.fit(features_train, labels_train)
+
+# Evaluasi Model
+y_pred_train = model.predict(features_train)
+train_accuracy = accuracy_score(labels_train, y_pred_train)
+
+y_pred_test = model.predict(features_test)
+test_accuracy = accuracy_score(labels_test, y_pred_test)
+
+st.write("Training Accuracy:", train_accuracy)
+st.write("Testing Accuracy:", test_accuracy)
