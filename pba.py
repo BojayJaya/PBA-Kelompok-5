@@ -20,8 +20,6 @@ nltk.download('stopwords')
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 import pickle
 import ast
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score
 
 st.title("PEMROSESAN BAHASA ALAMI A")
 st.write("### Dosen Pengampu : Dr. FIKA HASTARITA RACHMAN, ST., M.Eng")
@@ -74,17 +72,21 @@ with implementation:
         st.write(f"Ulasan: {input_text}")
         st.write(f"Label: {predicted_label[0]}")
 
-    # Menghitung akurasi pada data uji
-    y_pred = knn_classifier.predict(X_test_vectors)
-    accuracy = accuracy_score(y_test, y_pred)
+    # Melakukan ekstraksi fitur pada data uji
+    X_test = dataset['ulasan']
+    y_test = dataset['label']
+    
+    # Fungsi untuk mengubah teks menjadi vektor fitur menggunakan tfidf_dict
+    def extract_features(text, tfidf_dict):
+        features = []
+        for sentence in text:
+            tokens = preprocess_text(sentence)
+            vector = text_to_vector(' '.join(tokens), tfidf_dict)
+            features.append(vector)
+        return np.array(features)
 
-    # Menampilkan akurasi
-    st.write("Akurasi: {:.2f}%".format(accuracy * 100))
+    # Melakukan ekstraksi fitur pada data uji
+    X_test = dataset['ulasan']
+    y_test = dataset['label']
+    X_test_vectors = extract_features(X_test, tfidf_dict)
 
-    # Menampilkan label prediksi
-    st.write("Label Prediksi:")
-    for i, (label, ulasan) in enumerate(zip(y_pred, X_test)):
-        st.write(f"Data Uji {i+1}:")
-        st.write(f"Ulasan: {ulasan}")
-        st.write(f"Label: {label}")
-        st.write()
