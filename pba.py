@@ -31,10 +31,7 @@ st.write("##### Pramudya Dwi Febrianto - 200411100042")
 st.write("##### Febrian Achmad Syahputra - 200411100106")
 
 #Navbar
-description, preprocessing, ekstraksi_fitur, implementation = st.tabs(["Description", "Preprocessing", "Ekstraksi Fitur", "Implementation"])
-dataset = pd.read_csv("https://raw.githubusercontent.com/Feb11F/dataset/main/dieng_sentiment_pn.csv")
-
-#data_set_description
+description, preprocessing, ekstraksi_fitur, implementation = st.columns(4)
 with description:
     st.subheader("Description")
     # ... (Kode deskripsi tidak berubah)
@@ -104,6 +101,9 @@ with implementation:
         user_input_tokens = word_tokenize_wrapper(user_input)
         user_input_tokens_WSW = stopwords_removal(user_input_tokens)
         user_input_tokens_stemmed = get_stemmed_term(user_input_tokens_WSW)
+
+        st.write("Hasil preprocessing inputan ulasan:")
+        st.write(user_input_tokens_stemmed)
 
         # Mengubah input pengguna menjadi representasi fitur yang sesuai
         user_input_transformed = tfidf_vectorizer.transform([' '.join(user_input_tokens_stemmed)])
