@@ -86,7 +86,8 @@ if submit:
     # Prediksi
     v_data = tfidfvectorizer.transform([stem]).toarray()
     y_preds = clf.predict(v_data)
-        st.subheader('Preprocessing')
+    
+    st.subheader('Preprocessing')
     st.write("Case Folding:", lower_case_isi)
     st.write("Cleansing:", clean_symbols)
     st.write("Slang Word:", slang)
