@@ -52,6 +52,15 @@ def word_tokenize_wrapper(text):
     tokens = tokenizer.tokenize(text)
     return tokens
 
+list_stopwords = stopwords.words('indonesian')
+list_stopwords.extend(["yg", "dg", "rt", "dgn", "ny", "d", 'klo', 'kalo', 'amp', 'biar', 'bikin', 'bilang',
+                        'gak', 'ga', 'krn', 'nya', 'nih', 'sih', 'si', 'tau', 'tdk', 'tuh', 'utk', 'ya',
+                        'jd', 'jgn', 'sdh', 'aja', 'n', 't', 'nyg', 'hehe', 'pen', 'u', 'nan', 'loh', 'rt',
+                        '&amp', 'yah'])
+
+txt_stopword = pd.read_csv("https://raw.githubusercontent.com/masdevid/ID-Stopwords/master/id.stopwords.02.01.2016.txt", names=["stopwords"], header=None)
+
+list_stopwords.extend(txt_stopword["stopwords"][0].split(' '))
 list_stopwords = set(list_stopwords)
 
 def stopwords_removal(words):
