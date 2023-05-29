@@ -130,4 +130,3 @@ if prediction == 0:
     st.write("Sentimen: Negatif")
 else:
     st.write("Sentimen: Positif")
-
