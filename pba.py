@@ -83,7 +83,8 @@ with implementation:
             tokens = preprocess_text(sentence)
             vector = text_to_vector(' '.join(tokens), tfidf_dict)
             features.append(vector)
-        return np.array(features)
+        return features
+
 
     # Melakukan ekstraksi fitur pada data uji
     X_test = dataset['ulasan']
