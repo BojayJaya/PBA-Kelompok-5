@@ -37,7 +37,6 @@ dataset = pd.read_csv("https://raw.githubusercontent.com/Feb11F/dataset/main/die
 
 dataset['ulasan'] = dataset['ulasan'].str.lower()
 
-st.write("Tokenize:")
 def hapus_tweet_khusus(text):
     text = text.replace('\\t', " ").replace('\\n', " ").replace('\\u', " ").replace('\\', "")
     text = text.encode('ascii', 'replace').decode('ascii')
@@ -67,7 +66,6 @@ def word_tokenize_wrapper(text):
 def freqDist_wrapper(text):
     return FreqDist(text)
 
-st.write("Filtering (Stopword Removal):")
 list_stopwords = stopwords.words('indonesian')
 list_stopwords.extend(["yg", "dg", "rt", "dgn", "ny", "d", 'klo', 'kalo', 'amp', 'biar', 'bikin', 'bilang',
                         'gak', 'ga', 'krn', 'nya', 'nih', 'sih', 'si', 'tau', 'tdk', 'tuh', 'utk', 'ya',
@@ -82,7 +80,6 @@ list_stopwords = set(list_stopwords)
 def stopwords_removal(words):
     return [word for word in words if word not in list_stopwords]
 
-st.write("Stemming:")
 factory = StemmerFactory()
 stemmer = factory.create_stemmer()
 
