@@ -49,7 +49,7 @@ if submit:
     slang_dict = json.loads(data)
 
     # Load data.pickle from GitHub
-    url = 'https://raw.githubusercontent.com/your_username/your_repository/your_branch/data.pickle'
+    url = 'https://github.com/BojayJaya/PBA-Kelompok-5/blob/main/data.pickle'
     response = requests.get(url)
     with open('data.pickle', 'wb') as f:
         f.write(response.content)
