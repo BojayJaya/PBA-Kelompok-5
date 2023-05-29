@@ -31,7 +31,7 @@ st.write("##### Pramudya Dwi Febrianto - 200411100042")
 st.write("##### Febrian Achmad Syahputra - 200411100106")
 
 #Navbar
-ekstraksi_fitur, implementation = st.tabs([, "Ekstraksi Fitur", "Implementation"])
+ekstraksi_fitur, implementation = st.tabs(["Ekstraksi Fitur", "Implementation"])
 dataset = pd.read_csv("https://raw.githubusercontent.com/Feb11F/dataset/main/dieng_sentiment_pn.csv")
 
 with ekstraksi_fitur:
