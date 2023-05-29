@@ -20,7 +20,7 @@ st.title("Aplikasi Analisis Sentimen Pendapat orang tua terhadap pembelajaran da
 
 # Fractional Knapsack Problem
 # Getting input from user
-word = st.text_area("Masukkan kata yang akan dianalisis:")
+word = st.text_area("Masukkan ulasan yang akan dianalisis:")
 
 submit = st.button("Submit")
 
