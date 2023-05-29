@@ -76,15 +76,13 @@ with implementation:
     X_test = dataset['ulasan']
     y_test = dataset['label']
     
-    # Fungsi untuk mengubah teks menjadi vektor fitur menggunakan tfidf_dict
     def extract_features(text, tfidf_dict):
-        features = []
-        for sentence in text:
-            tokens = preprocess_text(sentence)
-            vector = text_to_vector(' '.join(tokens), tfidf_dict)
-            features.append(vector)
-        return features
-
+    features = []
+    for sentence in text:
+        tokens = preprocess_text(sentence)
+        vector = text_to_vector(' '.join(tokens), tfidf_dict)
+        features.append(vector)
+    return features
 
     # Melakukan ekstraksi fitur pada data uji
     X_test = dataset['ulasan']
