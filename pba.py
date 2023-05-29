@@ -159,16 +159,33 @@ with ekstraksi_fitur:
     knn_classifier = KNeighborsClassifier(n_neighbors=k)
     knn_classifier.fit(X_train_vectors, y_train)
 
-# Implementasi
-with implementation:
 # Implementasi dengan Streamlit
-    st.title("Klasifikasi Sentimen Ulasan Menggunakan KNN")
+with implementation:
+    st.subheader("Preprocessing Data")
+
+    # Fungsi untuk preprocessing ulasan
+    def preprocess_text(text):
+        text = text.lower()
+        text = hapus_tweet_khusus(text)
+        text = hapus_nomor(text)
+        text = hapus_tanda_baca(text)
+        text = hapus_whitespace_LT(text)
+        text = hapus_whitespace_multiple(text)
+        text = hapus_single_char(text)
+        tokens = word_tokenize_wrapper(text)
+        tokens = stopwords_removal(tokens)
+        stemmed_tokens = get_stemmed_term(tokens)
+        return stemmed_tokens
+
     st.write("Masukkan ulasan di bawah ini:")
     input_text = st.text_input("Silahkan Masukkan Ulasan Anda :")
 
     if st.button("Prediksi"):
+        # Preprocessing ulasan input
+        processed_text = preprocess_text(input_text)
+
         # Mengubah input ulasan menjadi vektor
-        input_vector = text_to_vector(input_text, tfidf_dict)
+        input_vector = text_to_vector(' '.join(processed_text), tfidf_dict)
         input_vector = np.array(input_vector).reshape(1, -1)
 
         # Melakukan prediksi pada input ulasan
