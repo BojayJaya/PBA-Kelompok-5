@@ -163,7 +163,7 @@ with preprocessing:
     def stopwords_removal(words):
         return [word for word in words if word not in list_stopwords]
 
-#     dataset['ulasan_tokens_WSW'] = dataset['ulasan_tokens'].apply(stopwords_removal)
+    dataset['ulasan_tokens_WSW'] = dataset['ulasan_tokens'].apply(stopwords_removal)
 
     factory = StemmerFactory()
     stemmer = factory.create_stemmer()
@@ -185,7 +185,7 @@ with preprocessing:
     def get_stemmed_term(document):
         return [term_dict[term] for term in document]
 
-    dataset['ulasan_tokens_stemmed'] = dataset['ulasan_tokens_WSW'].apply(get_stemmed_term)
+#     dataset['ulasan_tokens_stemmed'] = dataset['ulasan_tokens_WSW'].apply(get_stemmed_term)
 
 with ekstraksi_fitur:
     st.write("Menyimpan data hasil preprocessing ke pickle")
