@@ -308,7 +308,7 @@ with ekstraksi_fitur:
     print()
 
     # Klasifikasi menggunakan KNN
-    knn_classifier = KNeighborsClassifier()
+    knn_classifier = KNeighborsClassifier(5)
     knn_classifier.fit(X_train_vectors, y_train)
 
 # Implementasi
