@@ -31,11 +31,11 @@ st.write("##### Pramudya Dwi Febrianto - 200411100042")
 st.write("##### Febrian Achmad Syahputra - 200411100106")
 
 #Navbar
-data_set_description, upload_data, preprocessing, ekstraksifitur, modeling, implementation = st.tabs(["Data Set Description", "Upload Data", "Preprocessing", "Tf-Idf", "Modeling", "Implementation"])
+description, preprocessing, ekstraksi_fitur, implementation = st.tabs(["Description", "Preprocessing", "Ekstraksi Fitur", "Implementation"])
 dataset = pd.read_csv("https://raw.githubusercontent.com/Feb11F/dataset/main/dieng_sentiment_pn.csv")
 
 #data_set_description
-with data_set_description:
+with description:
     st.write("###### Judul : ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN) ")
     st.write("""###### Penjelasan Prepocessing Data : """)
     st.write("""1. Case Folding :
@@ -98,16 +98,6 @@ with data_set_description:
     st.write("""ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN)""")
     st.write("###### Source Code Aplikasi ada di Github anda bisa acces di link : ")
     st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6282138614807 ")
-
-#Uploud data
-with upload_data:
-    uploaded_files = st.file_uploader("Upload file CSV", accept_multiple_files=True)
-    for uploaded_file in uploaded_files:
-        df = pd.read_csv(uploaded_file)
-        st.write("Nama File Anda = ", uploaded_file.name)
-        # view dataset asli
-        st.header("Dataset")
-        st.dataframe(df)
 
 with preprocessing:
     st.subheader("Preprocessing Data")
@@ -213,7 +203,7 @@ with preprocessing:
     dataset['ulasan_tokens_stemmed'] = dataset['ulasan_tokens_WSW'].apply(get_stemmed_term)
     st.write(dataset['ulasan_tokens_stemmed'].head())
 
-with modeling:
+with ekstraksi_fitur:
     st.write("Menyimpan data hasil preprocessing ke pickle")
     with open('data.pickle', 'wb') as file:
         pickle.dump(dataset, file)
@@ -244,6 +234,7 @@ with modeling:
     st.write("\ntype: ", type(Data_ulasan["ulasan_list"][90]))
 
     # Ekstraksi fitur menggunakan TF-IDF
+    st.write('Menghitung TF')
     def calculate_tf(corpus):
         tf_dict = {}
         for document in corpus:
@@ -257,6 +248,7 @@ with modeling:
         for word in tf_dict:
             tf_dict[word] = tf_dict[word] / total_words
         return tf_dict
+        st.write(tf_dict)
 
     def calculate_df(corpus):
         df_dict = {}
@@ -289,13 +281,12 @@ with modeling:
     tf_train = calculate_tfidf(calculate_tf(X_train), calculate_idf(X_train))
     tf_test = calculate_tfidf(calculate_tf(X_test), calculate_idf(X_train))
 
-    print("Term Frequency-Inverse Document Frequency (TF-IDF):")
+    st.write("Term Frequency-Inverse Document Frequency (TF-IDF):")
     for i, document in enumerate(X_train):
         tfidf_dict = calculate_tfidf(calculate_tf([document]), calculate_idf(X_train))
-        print(f"Document {i+1}:")
+        st.write(f"Document {i+1}:")
         for word, tfidf in tfidf_dict.items():
-            print(f"{word}: {tfidf}")
-        print()
+            st.write(f"{word}: {tfidf}")
 
     def text_to_vector(text, tfidf_dict):
         words = text.split()
