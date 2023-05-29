@@ -126,16 +126,11 @@ input_ulasan_tokens = word_tokenize_wrapper(input_ulasan)
 input_ulasan_tokens_WSW = stopwords_removal(input_ulasan_tokens)
 input_ulasan_tokens_stemmed = get_stemmed_term(input_ulasan_tokens_WSW)
 
-# Load model yang telah dilatih sebelumnya
-with open('model.pickle', 'rb') as file:
-    loaded_model = pickle.load(file)
+# Menampilkan hasil preprocessing
+st.write("Hasil Preprocessing Ulasan:")
+st.write(input_ulasan_tokens_stemmed)
 
-# Lakukan prediksi sentimen menggunakan model
-input_ulasan_vectorized = tfidf_vectorizer.transform([' '.join(input_ulasan_tokens_stemmed)])
-prediction = loaded_model.predict(input_ulasan_vectorized)
+# Menampilkan label
+st.write("Label:")
+st.write(label)
 
-# Tampilkan hasil prediksi
-if prediction == 0:
-    st.write("Sentimen: Negatif")
-else:
-    st.write("Sentimen: Positif")
