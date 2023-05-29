@@ -302,11 +302,6 @@ with ekstraksi_fitur:
 
 # Implementasi
 with implementation:
-    # Inisialisasi model KNN
-    knn_model = KNeighborsClassifier(n_neighbors=5)
-
-    # Latih model KNN
-    knn_model.fit(X_train, y_train)
 
     def get_stemmed_term(document):
         return [term_dict[term] for term in document]
@@ -355,8 +350,8 @@ with implementation:
     input_ulasan_tokens_stemmed = get_stemmed_term(input_ulasan_tokens)
 
     # Load model KNN yang telah dilatih sebelumnya
-    with open('model_knn.pickle', 'rb') as file:
-        knn_model = pickle.load(file)
+#     with open('model_knn.pickle', 'rb') as file:
+#         knn_model = pickle.load(file)
 
     # Lakukan prediksi sentimen menggunakan model KNN
     input_ulasan_vectorized = tfidf_vectorizer.transform([' '.join(input_ulasan_tokens_stemmed)])
