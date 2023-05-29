@@ -1,33 +1,20 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from PIL import Image
-import altair as alt
-from sklearn.preprocessing import MinMaxScaler
-from sklearn import preprocessing
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-from sklearn.neighbors import KNeighborsClassifier
-import nltk
-nltk.download('punkt')
-import string 
+import string
 import re
 from nltk.tokenize import RegexpTokenizer
-from nltk.tokenize import word_tokenize
 from nltk.probability import FreqDist
 from nltk.corpus import stopwords
-nltk.download('stopwords')
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 import pickle
-import ast
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import LinearSVC
 
 st.title("PEMROSESAN BAHASA ALAMI A")
-st.write("### Dosen Pengampu : Dr. FIKA HASTARITA RACHMAN, ST., M.Eng")
-st.write("#### Kelompok : 5")
+st.write("### Dosen Pengampu: Dr. FIKA HASTARITA RACHMAN, ST., M.Eng")
+st.write("#### Kelompok: 5")
 st.write("##### Hambali Fitrianto - 200411100074")
 st.write("##### Pramudya Dwi Febrianto - 200411100042")
 st.write("##### Febrian Achmad Syahputra - 200411100106")
@@ -141,7 +128,7 @@ input_ulasan = hapus_whitespace_multiple(input_ulasan)
 input_ulasan = hapus_single_char(input_ulasan)
 input_ulasan_tokens = word_tokenize_wrapper(input_ulasan)
 input_ulasan_tokens_WSW = stopwords_removal(input_ulasan_tokens)
-input_ulasan_tokens_stemmed = get_stemmed_term(input_ulasan_tokens_WSW)
+input_ulasan_tokens_stemmed = get_stemmed_term(input_ulasan_tokens)
 
 # Load model yang telah dilatih sebelumnya
 with open('model.pickle', 'rb') as file:
@@ -156,3 +143,4 @@ if prediction == 0:
     st.write("Sentimen: Negatif")
 else:
     st.write("Sentimen: Positif")
+
