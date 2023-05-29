@@ -36,8 +36,9 @@ dataset = pd.read_csv("https://raw.githubusercontent.com/Feb11F/dataset/main/die
 
 #data_set_description
 with description:
+    st.subheader("Description")
     # ... (Kode deskripsi tidak berubah)
-
+    
 with preprocessing:
     st.subheader("Preprocessing Data")
 
