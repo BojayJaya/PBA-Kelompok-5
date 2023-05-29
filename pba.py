@@ -165,22 +165,22 @@ with preprocessing:
 
 #     dataset['ulasan_tokens_WSW'] = dataset['ulasan_tokens'].apply(stopwords_removal)
 
-    factory = StemmerFactory()
-    stemmer = factory.create_stemmer()
+#     factory = StemmerFactory()
+#     stemmer = factory.create_stemmer()
 
-    def stemmed_wrapper(term):
-        return stemmer.stem(term)
+#     def stemmed_wrapper(term):
+#         return stemmer.stem(term)
 
-    term_dict = {}
+#     term_dict = {}
 
-    for document in dataset['ulasan']:
-        for term in document:
-            if term not in term_dict:
-                term_dict[term] = ' '
+#     for document in dataset['ulasan']:
+#         for term in document:
+#             if term not in term_dict:
+#                 term_dict[term] = ' '
 
-    for term in term_dict:
-        term_dict[term] = stemmed_wrapper(term)
-        st.write(term, ":", term_dict[term])
+#     for term in term_dict:
+#         term_dict[term] = stemmed_wrapper(term)
+#         st.write(term, ":", term_dict[term])
 
     def get_stemmed_term(document):
         return [term_dict[term] for term in document]
