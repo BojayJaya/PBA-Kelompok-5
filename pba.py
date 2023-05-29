@@ -96,7 +96,7 @@ with description:
     
     st.write("###### Aplikasi ini untuk : ")
     st.write("""ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN)""")
-    st.write("###### Source Code Aplikasi ada di Github anda bisa acces di link : ")
+    st.write("###### Source Code Aplikasi ada di Github anda bisa acces di link : https://github.com/BojayJaya/PBA-Kelompok-5")
     st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6282138614807 ")
 
 with preprocessing:
