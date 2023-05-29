@@ -302,25 +302,25 @@ with ekstraksi_fitur:
 
     # Menampilkan Term Frequency (TF)
     st.write("Term Frequency (TF):")
-    for i, document in enumerate(X_train):
-        tf_dict = calculate_tf([document])
-        st.write(f"Document {i+1}:")
-        for word, tf in tf_dict.items():
-            st.write(f"{word}: {tf}")
-        st.write()
+#     for i, document in enumerate(X_train):
+#         tf_dict = calculate_tf([document])
+#         st.write(f"Document {i+1}:")
+#         for word, tf in tf_dict.items():
+#             st.write(f"{word}: {tf}")
+#         st.write()
 
     # Menampilkan Document Frequency (DF)
     st.write("Document Frequency (DF):")
-    df_train = calculate_df(X_train)
-    for word, df in df_train.items():
-        st.write(f"{word}: {df}")
-    st.write()
+#     df_train = calculate_df(X_train)
+#     for word, df in df_train.items():
+#         st.write(f"{word}: {df}")
+#     st.write()
 
     # Menampilkan Inverse Document Frequency (IDF)
     st.write("Inverse Document Frequency (IDF):")
-    for word, idf in idf_train.items():
-        st.write(f"{word}: {idf}")
-    st.write()
+#     for word, idf in idf_train.items():
+#         st.write(f"{word}: {idf}")
+#     st.write()
 
     # Klasifikasi menggunakan KNN
     knn_classifier = KNeighborsClassifier(n_neighbors=3)
