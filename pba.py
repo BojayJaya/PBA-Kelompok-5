@@ -347,13 +347,13 @@ with implementation:
     input_ulasan_tokens_WSW = stopwords_removal(input_ulasan_tokens)
     input_ulasan_tokens_stemmed = get_stemmed_term(input_ulasan_tokens)
 
-    # Load model yang telah dilatih sebelumnya
-#     with open('model.pickle', 'rb') as file:
-#         loaded_model = pickle.load(file)
+    # Load model KNN yang telah dilatih sebelumnya
+    with open('model_knn.pickle', 'rb') as file:
+        knn_model = pickle.load(file)
 
-    # Lakukan prediksi sentimen menggunakan model
+    # Lakukan prediksi sentimen menggunakan model KNN
     input_ulasan_vectorized = tfidf_vectorizer.transform([' '.join(input_ulasan_tokens_stemmed)])
-    prediction = loaded_model.predict(input_ulasan_vectorized)
+    prediction = knn_model.predict(input_ulasan_vectorized)
 
     # Tampilkan hasil prediksi
     if prediction == 0:
