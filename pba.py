@@ -44,7 +44,7 @@ if submit:
         return lower_case_isi, clean_symbols, slang, stem
 
     # Load data.pickle from GitHub
-    url = 'https://github.com/BojayJaya/PBA-Kelompok-5/blob/main/data.pickle'
+    url = 'https://github.com/BojayJaya/PBA-Kelompok-5/raw/main/data.pickle'
     response = requests.get(url)
     with open('data.pickle', 'wb') as f:
         f.write(response.content)
@@ -81,7 +81,7 @@ if submit:
     # Prediksi
     v_data = tfidfvectorizer.transform([stem]).toarray()
     y_preds = clf.predict(v_data)
-    
+
     st.subheader('Preprocessing')
     st.write("Case Folding:", lower_case_isi)
     st.write("Cleansing:", clean_symbols)
