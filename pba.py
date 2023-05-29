@@ -31,7 +31,7 @@ st.write("##### Pramudya Dwi Febrianto - 200411100042")
 st.write("##### Febrian Achmad Syahputra - 200411100106")
 
 # Load dataset
-dataset = pd.read_csv("data.csv")
+dataset = pd.read_csv("https://raw.githubusercontent.com/Feb11F/dataset/main/dieng_sentiment_pn.csv")
 
 dataset['ulasan'] = dataset['ulasan'].str.lower()
 st.write("Case Folding Result:")
