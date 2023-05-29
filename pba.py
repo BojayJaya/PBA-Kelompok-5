@@ -72,7 +72,7 @@ with ekstraksi_fitur:
 
     # Menampilkan data set
     st.write("Data Set:")
-    st.write(dataset)
+    st.dataframe(dataset)  # Tampilkan dataset menggunakan st.dataframe()
 
     # Memisahkan fitur (X) dan label (y)
     X = dataset['ulasan']
