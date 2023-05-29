@@ -1,102 +1,113 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import regex as re
-import json
-import nltk
-nltk.download('stopwords')
-nltk.download('punkt')
-from nltk.tokenize import sent_tokenize, word_tokenize
-from nltk.corpus import stopwords
-from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
-from sklearn.feature_extraction.text import TfidfVectorizer
+from PIL import Image
+import altair as alt
+from sklearn.preprocessing import MinMaxScaler
+from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 from sklearn.neighbors import KNeighborsClassifier
+import nltk
+nltk.download('punkt')
+import string 
+import re
+from nltk.tokenize import RegexpTokenizer
+from nltk.tokenize import word_tokenize
+from nltk.probability import FreqDist
+from nltk.corpus import stopwords
+nltk.download('stopwords')
+from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 import pickle
-from sklearn.metrics import confusion_matrix, accuracy_score
-import requests
+import ast
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
 
-st.title("Aplikasi Analisis Sentimen Pendapat orang tua terhadap pembelajaran daring pada masa Covid-19 dengan algoritma KNN")
+st.title("PEMROSESAN BAHASA ALAMI A")
+st.write("### Dosen Pengampu : Dr. FIKA HASTARITA RACHMAN, ST., M.Eng")
+st.write("#### Kelompok : 5")
+st.write("##### Hambali Fitrianto - 200411100074")
+st.write("##### Pramudya Dwi Febrianto - 200411100042")
+st.write("##### Febrian Achmad Syahputra - 200411100106")
 
-# Load data_ulasan.pickle from GitHub
-url = 'https://github.com/BojayJaya/PBA-Kelompok-5/raw/main/data_ulasan.pickle'
-response = requests.get(url)
-with open('data_ulasan.pickle', 'wb') as f:
-    f.write(response.content)
+#Navbar
+description, preprocessing, ekstraksi_fitur, implementation = st.tabs(["Description", "Preprocessing", "Ekstraksi Fitur", "Implementation"])
+dataset = pd.read_csv("https://raw.githubusercontent.com/Feb11F/dataset/main/dieng_sentiment_pn.csv")
 
-# Load the pickled data
-with open('data_ulasan.pickle', 'rb') as f:
-    data_ulasan = pickle.load(f)
+#data_set_description
+with description:
+    # ... (Kode deskripsi tidak berubah)
 
-# Fractional Knapsack Problem
-# Getting input from user
-word = st.text_area("Masukkan ulasan yang akan dianalisis:")
+with preprocessing:
+    st.subheader("Preprocessing Data")
 
-submit = st.button("Submit")
+    # ... (Kode case folding tidak berubah)
 
-if submit:
-    def prep_input_data(word, slang_dict):
-        lower_case_isi = word.lower()
-        clean_symbols = re.sub("[^a-zA-Zï ]+", " ", lower_case_isi)
-        
-        def replace_slang_words(text):
-            words = nltk.word_tokenize(text.lower())
-            words_filtered = [word for word in words if word not in stopwords.words('indonesian')]
-            for i in range(len(words_filtered)):
-                if words_filtered[i] in slang_dict:
-                    words_filtered[i] = slang_dict[words_filtered[i]]
-            return ' '.join(words_filtered)
-        
-        slang = replace_slang_words(clean_symbols)
-        factory = StemmerFactory()
-        stemmer = factory.create_stemmer()
-        stem = stemmer.stem(slang)
-        return lower_case_isi, clean_symbols, slang, stem
+    st.write("Tokenize:")
+    # ... (Kode tokenisasi tidak berubah)
 
-    names = data_ulasan['names']
-    df = data_ulasan['df']
+    st.write("Filtering (Stopword Removal):")
+    # ... (Kode filtering stopwords tidak berubah)
 
-    # TfidfVectorizer
-    tfidfvectorizer = TfidfVectorizer(analyzer='word')
-    tfidf_wm = tfidfvectorizer.fit_transform(names)
-    tfidf_tokens = tfidfvectorizer.get_feature_names_out()
-    df_tfidfvect = pd.DataFrame(data=tfidf_wm.toarray(), columns=tfidf_tokens)
+    st.write("Stemming:")
+    # ... (Kode stemming tidak berubah)
 
-    # Train test split
-    training, test = train_test_split(tfidf_wm, test_size=0.2, random_state=1)
-    training_label, test_label = train_test_split(df['Label'], test_size=0.2, random_state=1)
+    # Penambahan tahap processing saat ada inputan ulasan
+    user_input = st.text_input("Masukkan ulasan:")
+    if user_input:
+        user_input = user_input.lower()
+        user_input = hapus_tweet_khusus(user_input)
+        user_input = hapus_nomor(user_input)
+        user_input = hapus_tanda_baca(user_input)
+        user_input = hapus_whitespace_LT(user_input)
+        user_input = hapus_whitespace_multiple(user_input)
+        user_input = hapus_single_char(user_input)
+        user_input_tokens = word_tokenize_wrapper(user_input)
+        user_input_tokens_WSW = stopwords_removal(user_input_tokens)
+        user_input_tokens_stemmed = get_stemmed_term(user_input_tokens_WSW)
 
-    # Model
-    clf = KNeighborsClassifier(n_neighbors=5)
-    clf.fit(training, training_label)
-    y_pred = clf.predict(test)
+        st.write("Hasil preprocessing inputan ulasan:")
+        st.write(user_input_tokens_stemmed)
 
-    # Evaluasi
-    cm = confusion_matrix(test_label, y_pred)
-    akurasi = accuracy_score(test_label, y_pred)
+with ekstraksi_fitur:
+    st.subheader("Ekstraksi Fitur")
 
-    # Inputan
-    lower_case_isi, clean_symbols, slang, stem = prep_input_data(word, slang_dict)
-    
-    # Prediksi
-    v_data = tfidfvectorizer.transform([stem]).toarray()
-    y_preds = clf.predict(v_data)
+    # Menampilkan data set
+    st.write("Data Set:")
+    st.write(dataset)
 
-    st.subheader('Preprocessing')
-    st.write("Case Folding:", lower_case_isi)
-    st.write("Cleansing:", clean_symbols)
-    st.write("Slang Word:", slang)
-    st.write("Stemming:", stem)
+    # Memisahkan fitur (X) dan label (y)
+    X = dataset['Ulasan']
+    y = dataset['Sentimen']
 
-    st.subheader('Confusion Matrix')
+    # Membagi data menjadi train set dan test set
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # ... (Kode ekstraksi fitur lainnya tidak berubah)
+with implementation:
+    st.subheader("Implementation")
+
+    # ... (Kode implementasi lainnya)
+
+    # Menginisialisasi dan melatih model klasifikasi K-NN
+    k = st.slider("Jumlah Tetangga (K)", min_value=1, max_value=10, step=1, value=5)
+    knn = KNeighborsClassifier(n_neighbors=k)
+    knn.fit(X_train_transformed, y_train)
+
+    # Memprediksi label ulasan pada data test
+    y_pred = knn.predict(X_test_transformed)
+
+    # Menghitung akurasi model
+    accuracy = accuracy_score(y_test, y_pred)
+    st.write("Akurasi Model:", accuracy)
+
+    # Menampilkan confusion matrix
+    cm = confusion_matrix(y_test, y_pred)
+    st.write("Confusion Matrix:")
     st.write(cm)
 
-    st.subheader('Akurasi')
-    st.info(akurasi)
-
-    st.subheader('Prediksi')
-    if y_preds == "Positif":
-        st.success('Positive')
-    else:
-        st.error('Negative')
+    # Menampilkan classification report
+    cr = classification_report(y_test, y_pred)
+    st.write("Classification Report:")
+    st.write(cr)
 
