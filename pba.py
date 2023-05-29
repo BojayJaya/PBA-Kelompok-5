@@ -46,46 +46,28 @@ def hapus_tweet_khusus(text):
     text = ' '.join(re.sub("([@#][A-Za-z0-9]+)|(\w+:\/\/\S+)", " ", text).split())
     return text.replace("http://", " ").replace("https://", " ")
 
-dataset['ulasan'] = dataset['ulasan'].apply(hapus_tweet_khusus)
-
 def hapus_nomor(text):
     return re.sub(r"\d+", "", text)
-
-dataset['ulasan'] = dataset['ulasan'].apply(hapus_nomor)
 
 def hapus_tanda_baca(text):
     return text.translate(str.maketrans("", "", string.punctuation))
 
-dataset['ulasan'] = dataset['ulasan'].apply(hapus_tanda_baca)
-
 def hapus_whitespace_LT(text):
     return text.strip()
-
-dataset['ulasan'] = dataset['ulasan'].apply(hapus_whitespace_LT)
 
 def hapus_whitespace_multiple(text):
     return re.sub('\s+', ' ', text)
 
-dataset['ulasan'] = dataset['ulasan'].apply(hapus_whitespace_multiple)
-
 def hapus_single_char(text):
     return re.sub(r"\b[a-zA-Z]\b", "", text)
-
-dataset['ulasan'] = dataset['ulasan'].apply(hapus_single_char)
 
 def word_tokenize_wrapper(text):
     tokenizer = RegexpTokenizer(r'dataran\s+tinggi|jawa\s+tengah|[\w\']+')
     tokens = tokenizer.tokenize(text)
     return tokens
 
-dataset['ulasan_tokens'] = dataset['ulasan'].apply(word_tokenize_wrapper)
-st.write(dataset['ulasan_tokens'].head())
-
 def freqDist_wrapper(text):
     return FreqDist(text)
-
-dataset['ulasan_tokens_fdist'] = dataset['ulasan_tokens'].apply(freqDist_wrapper)
-st.write(dataset['ulasan_tokens_fdist'].head())
 
 st.write("Filtering (Stopword Removal):")
 list_stopwords = stopwords.words('indonesian')
@@ -102,9 +84,6 @@ list_stopwords = set(list_stopwords)
 def stopwords_removal(words):
     return [word for word in words if word not in list_stopwords]
 
-dataset['ulasan_tokens_WSW'] = dataset['ulasan_tokens'].apply(stopwords_removal)
-st.write(dataset['ulasan_tokens_WSW'].head())
-
 st.write("Stemming:")
 factory = StemmerFactory()
 stemmer = factory.create_stemmer()
@@ -119,21 +98,12 @@ for document in dataset['ulasan_tokens_WSW']:
         if term not in term_dict:
             term_dict[term] = ' '
 
-st.write(len(term_dict))
-st.write("------------------------")
-
 for term in term_dict:
     term_dict[term] = stemmed_wrapper(term)
     st.write(term, ":", term_dict[term])
 
-st.write(term_dict)
-st.write("------------------------")
-
 def get_stemmed_term(document):
     return [term_dict[term] for term in document]
-
-dataset['ulasan_tokens_stemmed'] = dataset['ulasan_tokens_WSW'].apply(get_stemmed_term)
-st.write(dataset['ulasan_tokens_stemmed'].head())
 
 with open('data.pickle', 'wb') as file:
     pickle.dump(dataset, file)
@@ -161,3 +131,33 @@ def convert_text_list(texts):
 
 Data_ulasan["ulasan_list"] = Data_ulasan["ulasan"].apply(convert_text_list)
 st.write(Data_ulasan["ulasan_list"][90])
+
+
+# Ambil inputan ulasan dari pengguna
+input_ulasan = st.text_input("Masukkan ulasan:")
+
+# Preprocessing ulasan
+input_ulasan = input_ulasan.lower()
+input_ulasan = hapus_tweet_khusus(input_ulasan)
+input_ulasan = hapus_nomor(input_ulasan)
+input_ulasan = hapus_tanda_baca(input_ulasan)
+input_ulasan = hapus_whitespace_LT(input_ulasan)
+input_ulasan = hapus_whitespace_multiple(input_ulasan)
+input_ulasan = hapus_single_char(input_ulasan)
+input_ulasan_tokens = word_tokenize_wrapper(input_ulasan)
+input_ulasan_tokens_WSW = stopwords_removal(input_ulasan_tokens)
+input_ulasan_tokens_stemmed = get_stemmed_term(input_ulasan_tokens_WSW)
+
+# Load model yang telah dilatih sebelumnya
+with open('model.pickle', 'rb') as file:
+    loaded_model = pickle.load(file)
+
+# Lakukan prediksi sentimen menggunakan model
+input_ulasan_vectorized = tfidf_vectorizer.transform([' '.join(input_ulasan_tokens_stemmed)])
+prediction = loaded_model.predict(input_ulasan_vectorized)
+
+# Tampilkan hasil prediksi
+if prediction == 0:
+    st.write("Sentimen: Negatif")
+else:
+    st.write("Sentimen: Positif")
