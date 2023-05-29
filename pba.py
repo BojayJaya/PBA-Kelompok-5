@@ -78,8 +78,8 @@ with ekstraksi_fitur:
     st.write(dataset)
 
     # Memisahkan fitur (X) dan label (y)
-    X = dataset['Ulasan']
-    y = dataset['Sentimen']
+    X = dataset['ulasan']
+    y = dataset['label']
 
     # Membagi data menjadi train set dan test set
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
