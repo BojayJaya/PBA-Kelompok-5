@@ -323,7 +323,8 @@ with ekstraksi_fitur:
 #     st.write()
 
     # Klasifikasi menggunakan KNN
-    knn_classifier = KNeighborsClassifier(n_neighbors=3)
+    k = 3
+    knn_classifier = KNeighborsClassifier(n_neighbors=k)
     knn_classifier.fit(X_train_vectors, y_train)
 
 # Implementasi
