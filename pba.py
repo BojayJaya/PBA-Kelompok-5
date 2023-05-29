@@ -302,6 +302,12 @@ with ekstraksi_fitur:
 
 # Implementasi
 with implementation:
+    # Inisialisasi model KNN
+    knn_model = KNeighborsClassifier(n_neighbors=5)
+
+    # Latih model KNN
+    knn_model.fit(X_train, y_train)
+
     def get_stemmed_term(document):
         return [term_dict[term] for term in document]
 
