@@ -110,44 +110,44 @@ with preprocessing:
         text = ' '.join(re.sub("([@#][A-Za-z0-9]+)|(\w+:\/\/\S+)", " ", text).split())
         return text.replace("http://", " ").replace("https://", " ")
     
-    dataset['ulasan'] = dataset['ulasan'].apply(hapus_tweet_khusus)
+#     dataset['ulasan'] = dataset['ulasan'].apply(hapus_tweet_khusus)
     
     def hapus_nomor(text):
         return re.sub(r"\d+", "", text)
     
-    dataset['ulasan'] = dataset['ulasan'].apply(hapus_nomor)
+#     dataset['ulasan'] = dataset['ulasan'].apply(hapus_nomor)
     
     def hapus_tanda_baca(text):
         return text.translate(str.maketrans("", "", string.punctuation))
     
-    dataset['ulasan'] = dataset['ulasan'].apply(hapus_tanda_baca)
+#     dataset['ulasan'] = dataset['ulasan'].apply(hapus_tanda_baca)
     
     def hapus_whitespace_LT(text):
         return text.strip()
     
-    dataset['ulasan'] = dataset['ulasan'].apply(hapus_whitespace_LT)
+#     dataset['ulasan'] = dataset['ulasan'].apply(hapus_whitespace_LT)
     
     def hapus_whitespace_multiple(text):
         return re.sub('\s+', ' ', text)
     
-    dataset['ulasan'] = dataset['ulasan'].apply(hapus_whitespace_multiple)
+#     dataset['ulasan'] = dataset['ulasan'].apply(hapus_whitespace_multiple)
     
     def hapus_single_char(text):
         return re.sub(r"\b[a-zA-Z]\b", "", text)
     
-    dataset['ulasan'] = dataset['ulasan'].apply(hapus_single_char)
+#     dataset['ulasan'] = dataset['ulasan'].apply(hapus_single_char)
     
     def word_tokenize_wrapper(text):
         tokenizer = RegexpTokenizer(r'dataran\s+tinggi|jawa\s+tengah|[\w\']+')
         tokens = tokenizer.tokenize(text)
         return tokens
     
-    dataset['ulasan_tokens'] = dataset['ulasan'].apply(word_tokenize_wrapper)
+#     dataset['ulasan_tokens'] = dataset['ulasan'].apply(word_tokenize_wrapper)
     
     def freqDist_wrapper(text):
         return FreqDist(text)
     
-    dataset['ulasan_tokens_fdist'] = dataset['ulasan_tokens'].apply(freqDist_wrapper)
+#     dataset['ulasan_tokens_fdist'] = dataset['ulasan_tokens'].apply(freqDist_wrapper)
 
     list_stopwords = stopwords.words('indonesian')
     list_stopwords.extend(["yg", "dg", "rt", "dgn", "ny", "d", 'klo', 'kalo', 'amp', 'biar', 'bikin', 'bilang',
@@ -163,9 +163,8 @@ with preprocessing:
     def stopwords_removal(words):
         return [word for word in words if word not in list_stopwords]
 
-    dataset['ulasan_tokens_WSW'] = dataset['ulasan_tokens'].apply(stopwords_removal)
+#     dataset['ulasan_tokens_WSW'] = dataset['ulasan_tokens'].apply(stopwords_removal)
 
-    st.write("Stemming:")
     factory = StemmerFactory()
     stemmer = factory.create_stemmer()
 
@@ -186,7 +185,7 @@ with preprocessing:
     def get_stemmed_term(document):
         return [term_dict[term] for term in document]
 
-    dataset['ulasan_tokens_stemmed'] = dataset['ulasan_tokens_WSW'].apply(get_stemmed_term)
+#     dataset['ulasan_tokens_stemmed'] = dataset['ulasan_tokens_WSW'].apply(get_stemmed_term)
 
 with ekstraksi_fitur:
     st.write("Menyimpan data hasil preprocessing ke pickle")
