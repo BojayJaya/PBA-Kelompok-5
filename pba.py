@@ -36,8 +36,6 @@ st.write("##### Febrian Achmad Syahputra - 200411100106")
 dataset = pd.read_csv("https://raw.githubusercontent.com/Feb11F/dataset/main/dieng_sentiment_pn.csv")
 
 dataset['ulasan'] = dataset['ulasan'].str.lower()
-st.write("Case Folding Result:")
-st.write(dataset['ulasan'].head())
 
 st.write("Tokenize:")
 def hapus_tweet_khusus(text):
