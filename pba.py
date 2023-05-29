@@ -22,6 +22,8 @@ import pickle
 import ast
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.svm import LinearSVC
 
 st.title("PEMROSESAN BAHASA ALAMI A")
 st.write("### Dosen Pengampu : Dr. FIKA HASTARITA RACHMAN, ST., M.Eng")
@@ -82,6 +84,7 @@ st.write(dataset['ulasan_tokens'].head())
 def freqDist_wrapper(text):
     return FreqDist(text)
 
+dataset['ulasan_tokens_fdist'] = dataset['ulasan_tokens'].apply(freqDist_wrapper)
 st.write(dataset['ulasan_tokens_fdist'].head())
 
 st.write("Filtering (Stopword Removal):")
@@ -158,46 +161,3 @@ def convert_text_list(texts):
 
 Data_ulasan["ulasan_list"] = Data_ulasan["ulasan"].apply(convert_text_list)
 st.write(Data_ulasan["ulasan_list"][90])
-st.write("\ntype: ", type(Data_ulasan["ulasan_list"][90]))
-
-# Ekstraksi fitur menggunakan TF-IDF
-def calculate_tf(corpus):
-    tf_dict = {}
-    for document in X_train:
-        words = document.split()
-        for word in words:
-            if word not in tf_dict:
-                tf_dict[word] = 1
-            else:
-                tf_dict[word] += 1
-
-# Calculate Term Frequency (TF)
-tf_dict = {term: count/len(X_train) for term, count in tf_dict.items()}
-
-st.write("Term Frequency (TF):")
-st.write(tf_dict)
-
-# Ekstraksi fitur menggunakan TF-IDF
-tfidf = TfidfVectorizer(sublinear_tf=True, min_df=5, norm='l2', encoding='latin-1', ngram_range=(1, 2))
-features_train = tfidf.fit_transform(X_train).toarray()
-labels_train = y_train
-
-st.write("Features Train Shape:")
-st.write(features_train.shape)
-
-features_test = tfidf.transform(X_test).toarray()
-labels_test = y_test
-
-# Model Training
-model = LinearSVC()
-model.fit(features_train, labels_train)
-
-# Evaluasi Model
-y_pred_train = model.predict(features_train)
-train_accuracy = accuracy_score(labels_train, y_pred_train)
-
-y_pred_test = model.predict(features_test)
-test_accuracy = accuracy_score(labels_test, y_pred_test)
-
-st.write("Training Accuracy:", train_accuracy)
-st.write("Testing Accuracy:", test_accuracy)
