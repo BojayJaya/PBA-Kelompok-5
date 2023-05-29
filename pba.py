@@ -18,6 +18,16 @@ import requests
 
 st.title("Aplikasi Analisis Sentimen Pendapat orang tua terhadap pembelajaran daring pada masa Covid-19 dengan algoritma KNN")
 
+# Load data_ulasan.pickle from GitHub
+url = 'https://github.com/BojayJaya/PBA-Kelompok-5/raw/main/data_ulasan.pickle'
+response = requests.get(url)
+with open('data_ulasan.pickle', 'wb') as f:
+    f.write(response.content)
+
+# Load the pickled data
+with open('data_ulasan.pickle', 'rb') as f:
+    data_ulasan = pickle.load(f)
+
 # Fractional Knapsack Problem
 # Getting input from user
 word = st.text_area("Masukkan ulasan yang akan dianalisis:")
@@ -43,18 +53,8 @@ if submit:
         stem = stemmer.stem(slang)
         return lower_case_isi, clean_symbols, slang, stem
 
-    # Load data.pickle from GitHub
-    url = 'https://github.com/BojayJaya/PBA-Kelompok-5/raw/main/data.pickle'
-    response = requests.get(url)
-    with open('data.pickle', 'wb') as f:
-        f.write(response.content)
-
-    # Load the pickled data
-    with open('data.pickle', 'rb') as f:
-        data = pickle.load(f)
-    
-    names = data['names']
-    df = data['df']
+    names = data_ulasan['names']
+    df = data_ulasan['df']
 
     # TfidfVectorizer
     tfidfvectorizer = TfidfVectorizer(analyzer='word')
@@ -86,7 +86,7 @@ if submit:
     st.write("Case Folding:", lower_case_isi)
     st.write("Cleansing:", clean_symbols)
     st.write("Slang Word:", slang)
-    st.write("Steaming:", stem)
+    st.write("Stemming:", stem)
 
     st.subheader('Confusion Matrix')
     st.write(cm)
@@ -99,3 +99,4 @@ if submit:
         st.success('Positive')
     else:
         st.error('Negative')
+
