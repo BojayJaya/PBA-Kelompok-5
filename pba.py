@@ -348,8 +348,8 @@ with implementation:
     input_ulasan_tokens_stemmed = get_stemmed_term(input_ulasan_tokens)
 
     # Load model yang telah dilatih sebelumnya
-    with open('model.pickle', 'rb') as file:
-        loaded_model = pickle.load(file)
+#     with open('model.pickle', 'rb') as file:
+#         loaded_model = pickle.load(file)
 
     # Lakukan prediksi sentimen menggunakan model
     input_ulasan_vectorized = tfidf_vectorizer.transform([' '.join(input_ulasan_tokens_stemmed)])
