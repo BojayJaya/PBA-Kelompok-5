@@ -293,9 +293,9 @@ with Implementation:
         st.write(f"Ulasan: {ulasan}")
         st.write(f"Label: {predicted_label[0]}")
 
-    # Menghitung akurasi pada data uji
-    y_pred = knn_classifier.predict(X_test_vectors)
-    accuracy = accuracy_score(y_test, y_pred)
+        # Menghitung akurasi pada data uji
+        y_pred = knn_classifier.predict(X_test_vectors)
+        accuracy = accuracy_score(y_test, y_pred)
 
-    # Menampilkan akurasi
-    st.write("Akurasi: {:.2f}%".format(accuracy * 100))
+        # Menampilkan akurasi
+        st.write("Akurasi: {:.2f}%".format(accuracy * 100))
