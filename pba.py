@@ -131,16 +131,12 @@ if submit:
     knn_classifier = KNeighborsClassifier(n_neighbors=3)
     knn_classifier.fit(X_train_vectors, y_train)
 
-    label_count = y_train.value_counts()
+    input_ulasan = tfidf_vectorizer.transform([" ".join(ulasan)])
 
-    if "positif" in label_count.index and "negatif" in label_count.index:
-        if label_count["positif"] > label_count["negatif"]:
-            input_ulasan = tfidf_vectorizer.transform([" ".join(ulasan)])
-        else:
-            input_ulasan = tfidf_vectorizer.transform([" ".join(ulasan)])
+    if input_ulasan.shape[1] == X_train_vectors.shape[1]:
         predicted_label = knn_classifier.predict(input_ulasan)
     else:
-        st.error("Kolom label tidak sesuai. Pastikan nama kolom label dalam DataFrame `y_train` adalah 'positif' dan 'negatif'.")
+        st.error("Dimensi vektor ulasan tidak cocok dengan model yang dilatih.")
 
     # Melakukan prediksi pada input ulasan
     predicted_label = knn_classifier.predict(input_ulasan)
