@@ -280,7 +280,7 @@ with Implementation:
             return vector
 
         # Menghitung representasi TF-IDF untuk seluruh data
-        tfidf_dict = calculate_tfidf(calculate_tf(Data_ulasan["ulasan_hasil_preprocessing"]), calculate_idf(Data_ulasan["ulasan_hasil_preprocessing"]))
+        tfidf_dict = calculate_tfidf(calculate_tf(Data_ulasan["ulasan_list"]), calculate_idf(Data_ulasan["ulasan_list"]))
 
         # Mengonversi data ulasan pelatihan dan pengujian ke dalam vektor menggunakan representasi TF-IDF yang sama
         X_train_vectors = [text_to_vector(document, tfidf_dict) for document in X_train]
