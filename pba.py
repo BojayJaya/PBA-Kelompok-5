@@ -128,11 +128,11 @@ if submit:
     X_test_vectors = tfidf_vectorizer.transform(X_test)
 
     # Klasifikasi menggunakan KNN
-    knn_classifier = KNeighborsClassifier(n_neighbors=7)
+    knn_classifier = KNeighborsClassifier(n_neighbors=3)
     knn_classifier.fit(X_train_vectors, y_train)
 
     # Mengubah ulasan yang dimasukkan menjadi representasi vektor menggunakan TF-IDF
-    input_ulasan = tfidf_vectorizer.transform([ulasan])
+    input_ulasan = tfidf_vectorizer.transform([" ".join(ulasan)])
 
     # Melakukan prediksi pada input ulasan
     predicted_label = knn_classifier.predict(input_ulasan)
