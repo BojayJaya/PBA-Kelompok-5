@@ -120,7 +120,7 @@ if submit:
     
     
     Data_ulasan = pd.read_csv("https://raw.githubusercontent.com/BojayJaya/PBA-Kelompok-5/main/Text_Preprocessing.csv", usecols=["label", 'ulasan_tokens_stemmed'])
-    Data_ulasan.columns = ["label", "ulasan"]
-
     Data_ulasan = pd.DataFrame(Data_ulasan, columns=["label", "ulasan"])
-    Data_ulasan.head()
+#     Data_ulasan.head()
+    
+    st.write(Data_ulasa)
