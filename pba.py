@@ -165,10 +165,15 @@ with implementation:
 
         #Inputan 
         ulasan_case_folding,clean_symbols,tokens,gabung,stem = prep_input_data(iu)
+        st.write('case folding :')
         st.write(ulasan_case_folding)
+        st.write('cleaning simbol :')
         st.write(clean_symbols)
+        st.write('token :')
         st.write(tokens)
+        st.write('gabung :')
         st.write(gabung)
+        st.write('stemming :')
         st.write(stem)
 
         
