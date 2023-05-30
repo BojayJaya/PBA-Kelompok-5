@@ -139,7 +139,7 @@ if submit:
 
     # Menampilkan hasil prediksi
     st.write("Hasil Prediksi:")
-    st.write(f"Label: {predicted_label}")
+    st.write(f"Label: {predicted_label[0]}")
 
     # Menghitung akurasi pada data uji
     y_pred = knn_classifier.predict(X_test_vectors)
@@ -147,11 +147,3 @@ if submit:
 
     # Menampilkan akurasi
     st.write("Akurasi: {:.2f}%".format(accuracy * 100))
-
-    # Menampilkan label prediksi
-    st.write("Label Prediksi:")
-    for i, (label, ulasan) in enumerate(zip(y_pred, X_test)):
-        st.write(f"Data Uji {i+1}:")
-        st.write(f"Ulasan: {ulasan}")
-        st.write(f"Label: {label}")
-        st.write()
