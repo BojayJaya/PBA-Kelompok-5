@@ -144,8 +144,8 @@ if submit:
             return []
 
     Data_ulasan["ulasan_list"] = Data_ulasan["ulasan_hasil_preprocessing"].apply(convert_text_list)
-    st.write(Data_ulasan["ulasan_list"][90])
-    st.write("\ntype: ", type(Data_ulasan["ulasan_list"][90]))
+#     st.write(Data_ulasan["ulasan_list"][90])
+#     st.write("\ntype: ", type(Data_ulasan["ulasan_list"][90]))
 
     # Ekstraksi fitur menggunakan TF-IDF
     def calculate_tf(corpus):
@@ -161,7 +161,7 @@ if submit:
         for word in tf_dict:
             tf_dict[word] = tf_dict[word] / total_words
         return tf_dict
-        st.write(tf_dict)
+#         st.write(tf_dict)
 
     def calculate_df(corpus):
         df_dict = {}
@@ -196,9 +196,9 @@ if submit:
 
     for i, document in enumerate(X_train):
         tfidf_dict = calculate_tfidf(calculate_tf([document]), calculate_idf(X_train))
-        st.write(f"Document {i+1}:")
+#         st.write(f"Document {i+1}:")
         for word, tfidf in tfidf_dict.items():
-            st.write(f"{word}: {tfidf}")
+#             st.write(f"{word}: {tfidf}")
 
     def text_to_vector(text, tfidf_dict):
         words = text.split()
@@ -216,13 +216,13 @@ if submit:
     X_test_vectors = [text_to_vector(document, tfidf_dict) for document in X_test]
 
     # Menampilkan Term Frequency (TF)
-    st.write("Term Frequency (TF):")
+#     st.write("Term Frequency (TF):")
 
     # Menampilkan Document Frequency (DF)
-    st.write("Document Frequency (DF):")
+#     st.write("Document Frequency (DF):")
 
     # Menampilkan Inverse Document Frequency (IDF)
-    st.write("Inverse Document Frequency (IDF):")
+#     st.write("Inverse Document Frequency (IDF):")
 
     # Klasifikasi menggunakan KNN
     k = 3
