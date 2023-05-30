@@ -31,7 +31,7 @@ st.write("##### Pramudya Dwi Febrianto - 200411100042")
 st.write("##### Febrian Achmad Syahputra - 200411100106")
 
 #Navbar
-description, preprocessing, ekstraksi_fitur, implementation = st.tabs(["Description", "Preprocessing", "Ekstraksi Fitur", "Implementation"])
+description, Implementation = st.tabs(["Description", "Implementation"])
 dataset = pd.read_csv("https://raw.githubusercontent.com/Feb11F/dataset/main/dieng_sentiment_pn.csv")
 
 #data_set_description
@@ -99,6 +99,7 @@ with description:
     st.write("###### Source Code Aplikasi ada di Github anda bisa acces di link : https://github.com/BojayJaya/PBA-Kelompok-5")
     st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6282138614807 ")
 
+with Implementation:
 ulasan = st.text_area('Masukkan kata yang akan dianalisis:')
 submit = st.button("Submit")
 
