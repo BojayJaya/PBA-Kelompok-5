@@ -157,10 +157,10 @@ if submit:
     st.write("Akurasi: {:.2f}%".format(accuracy * 100))
 
     # Menampilkan label prediksi
-    st.write("Label Prediksi:")
-    for i, (label, ulasan) in enumerate(zip(y_pred, X_test)):
-        st.write(f"Data Uji {i+1}:")
-        st.write(f"Ulasan: {ulasan}")
-        st.write(f"Label: {label}")
-        st.write()
+#     st.write("Label Prediksi:")
+#     for i, (label, ulasan) in enumerate(zip(y_pred, X_test)):
+#         st.write(f"Data Uji {i+1}:")
+#         st.write(f"Ulasan: {ulasan}")
+#         st.write(f"Label: {label}")
+#         st.write()
 
