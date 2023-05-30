@@ -25,11 +25,12 @@ from sklearn.metrics import accuracy_score
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 
-ulasan = st.text_area('Masukkan kata yang akan di analisa :')
-submit = st.button("submit")
+ulasan = st.text_area('Masukkan kata yang akan dianalisis:')
+submit = st.button("Submit")
 
 if submit:
     ulasan = ulasan.lower()
+
     def hapus_tweet_khusus(text):
         text = text.replace('\\t', " ").replace('\\n', " ").replace('\\u', " ").replace('\\', "")
         text = text.encode('ascii', 'replace').decode('ascii')
@@ -80,7 +81,7 @@ if submit:
                             'gak', 'ga', 'krn', 'nya', 'nih', 'sih', 'si', 'tau', 'tdk', 'tuh', 'utk', 'ya',
                             'jd', 'jgn', 'sdh', 'aja', 'n', 't', 'nyg', 'hehe', 'pen', 'u', 'nan', 'loh', 'rt',
                             '&amp', 'yah'])
-
+    
     txt_stopword = pd.read_csv("https://raw.githubusercontent.com/masdevid/ID-Stopwords/master/id.stopwords.02.01.2016.txt", names=["stopwords"], header=None)
 
     list_stopwords.extend(txt_stopword["stopwords"][0].split(' '))
@@ -145,7 +146,6 @@ if submit:
 
     # Menampilkan hasil prediksi
     st.write("Hasil Prediksi:")
-#     st.write(f"Ulasan: {ulasan}")
     st.write(f"Label: {predicted_label[0]}")
 
     # Menghitung akurasi pada data uji
@@ -156,10 +156,9 @@ if submit:
     st.write("Akurasi: {:.2f}%".format(accuracy * 100))
 
     # Menampilkan label prediksi
-#     st.write("Label Prediksi:")
-#     for i, (label, ulasan) in enumerate(zip(y_pred, X_test)):
-#         st.write(f"Data Uji {i+1}:")
-#         st.write(f"Ulasan: {ulasan}")
-#         st.write(f"Label: {label}")
-#         st.write()
-
+    st.write("Label Prediksi:")
+    for i, (label, ulasan) in enumerate(zip(y_pred, X_test)):
+        st.write(f"Data Uji {i+1}:")
+        st.write(f"Ulasan: {ulasan}")
+        st.write(f"Label: {label}")
+        st.write()
