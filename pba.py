@@ -100,7 +100,7 @@ with description:
     st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6282138614807 ")
 
 with Implementation:
-    ulasan = st.text_area('Masukkan kata yang akan dianalisis:')
+    ulasan = st.text_input("Silahkan Masukkan Ulasan Anda :")
     submit = st.button("Submit")
 
     if submit:
