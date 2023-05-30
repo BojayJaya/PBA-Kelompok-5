@@ -11,6 +11,7 @@ nltk.download('stopwords')
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 import pickle
 from sklearn.metrics import accuracy_score
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 st.title("PEMROSESAN BAHASA ALAMI A")
 st.write("### Dosen Pengampu : Dr. FIKA HASTARITA RACHMAN, ST., M.Eng")
@@ -89,18 +90,18 @@ with description:
 
 with implementation:
     st.write("""
-    <center><h2 style = "text-align: justify;">APLIKASI ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN)</h2></center>
+    <center><h4 style = "text-align: justify;">APLIKASI ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN)</h4></center>
     """,unsafe_allow_html=True)
 
     #Fractional Knapsack Problem
     #Getting input from user
-    word = st.text_area('Masukkan kata yang akan di analisa :')
+    iu = st.text_area('Masukkan kata yang akan di analisa :')
 
     submit = st.button("submit")
 
     if submit:
-        def prep_input_data(word):
-            ulasan_case_folding = word.lower()
+        def prep_input_data(iu):
+            ulasan_case_folding = iu.lower()
 
             #Cleansing
             clean_tag  = re.sub("@[A-Za-z0-9_]+","", ulasan_case_folding)
@@ -139,7 +140,7 @@ with implementation:
         sentimen = Data_ulasan['label']
 
         # TfidfVectorizer 
-        # tfidfvectorizer = TfidfVectorizer(analyzer='word')
+        # tfidfvectorizer = TfidfVectorizer(analyzer='iu')
         # tfidf_wm = tfidfvectorizer.fit_transform(ulasan_dataset)
         # tfidf_tokens = tfidfvectorizer.get_feature_names_out()
         # df_tfidfvect = pd.DataFrame(data = tfidf_wm.toarray(),columns = tfidf_tokens)
@@ -161,9 +162,10 @@ with implementation:
 
         #Evaluasi
         akurasi = accuracy_score(test_label, y_pred)
+        akurasi_persen = akurasi * 100
 
         #Inputan 
-        ulasan_case_folding,clean_symbols,tokens,gabung,stem = prep_input_data(word)
+        ulasan_case_folding,clean_symbols,tokens,gabung,stem = prep_input_data(iu)
         st.write('Case Folding')
         st.write(ulasan_case_folding)
         st.write('Cleaning Simbol')
@@ -181,7 +183,8 @@ with implementation:
         y_preds = clf.predict(v_data)
 
         st.subheader('Akurasi')
-        st.info(akurasi)
+        # st.info(akurasi)
+        st.info(f"{akurasi_persen:.2f}%")
 
         st.subheader('Prediksi')
         if y_preds == "positive":
