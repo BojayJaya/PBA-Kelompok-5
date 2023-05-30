@@ -131,8 +131,6 @@ if submit:
     sentimen = Data_ulasan['label']
     X_train, X_test, y_train, y_test = train_test_split(ulasan, sentimen, test_size=0.2, random_state=42)
 
-
-
     def convert_text_list(texts):
         try:
             texts = ast.literal_eval(texts)
@@ -144,8 +142,6 @@ if submit:
             return []
 
     Data_ulasan["ulasan_list"] = Data_ulasan["ulasan_hasil_preprocessing"].apply(convert_text_list)
-#     st.write(Data_ulasan["ulasan_list"][90])
-#     st.write("\ntype: ", type(Data_ulasan["ulasan_list"][90]))
 
     # Ekstraksi fitur menggunakan TF-IDF
     def calculate_tf(corpus):
@@ -209,20 +205,11 @@ if submit:
         return vector
 
     # Menghitung representasi TF-IDF untuk seluruh data
-    tfidf_dict = calculate_tfidf(calculate_tf(Data_ulasan["ulasan"]), calculate_idf(Data_ulasan["ulasan"]))
+    tfidf_dict = calculate_tfidf(calculate_tf(Data_ulasan["ulasan_list"]), calculate_idf(Data_ulasan["ulasan_list"]))
 
     # Mengonversi data ulasan pelatihan dan pengujian ke dalam vektor menggunakan representasi TF-IDF yang sama
     X_train_vectors = [text_to_vector(document, tfidf_dict) for document in X_train]
     X_test_vectors = [text_to_vector(document, tfidf_dict) for document in X_test]
-
-    # Menampilkan Term Frequency (TF)
-#     st.write("Term Frequency (TF):")
-
-    # Menampilkan Document Frequency (DF)
-#     st.write("Document Frequency (DF):")
-
-    # Menampilkan Inverse Document Frequency (IDF)
-#     st.write("Inverse Document Frequency (IDF):")
 
     # Klasifikasi menggunakan KNN
     k = 3
