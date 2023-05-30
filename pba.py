@@ -198,7 +198,7 @@ with Implementation:
         Data_ulasan = pd.read_csv("https://raw.githubusercontent.com/BojayJaya/PBA-Kelompok-5/main/Text_Preprocessing.csv")
 
         # Pisahkan ulasan dan sentimen
-        ulasan = Data_ulasan['ulasan_hasil_preprocessing']
+        ulasan = Data_ulasan['ulasan_tokens_stemmed']
         sentimen = Data_ulasan['label']
 
         # Bagi data menjadi data pelatihan dan pengujian
@@ -214,7 +214,7 @@ with Implementation:
             except (SyntaxError, ValueError):
                 return []
 
-        Data_ulasan["ulasan_list"] = Data_ulasan["ulasan_hasil_preprocessing"].apply(convert_text_list)
+        Data_ulasan["ulasan_list"] = Data_ulasan["ulasan_tokens_stemmed"].apply(convert_text_list)
         st.write(Data_ulasan["ulasan_list"][90])
         st.write("\ntype: ", type(Data_ulasan["ulasan_list"][90]))
 
@@ -265,12 +265,6 @@ with Implementation:
         tf_train = calculate_tfidf(calculate_tf(X_train), calculate_idf(X_train))
         tf_test = calculate_tfidf(calculate_tf(X_test), calculate_idf(X_train))
 
-        # for i, document in enumerate(X_train):
-        #     tfidf_dict = calculate_tfidf(calculate_tf([document]), calculate_idf(X_train))
-        #     st.write(f"Document {i+1}:")
-        #     for word, tfidf in tfidf_dict.items():
-        #         st.write(f"{word}: {tfidf}")
-
         def text_to_vector(text, tfidf_dict):
             words = text.split()
             vector = np.zeros(len(tfidf_dict))
@@ -280,7 +274,7 @@ with Implementation:
             return vector
 
         # Menghitung representasi TF-IDF untuk seluruh data
-        tfidf_dict = calculate_tfidf(calculate_tf(Data_ulasan["ulasan_list"]), calculate_idf(Data_ulasan["ulasan_list"]))
+        tfidf_dict = calculate_tfidf(calculate_tf(Data_ulasan["ulasan"]), calculate_idf(Data_ulasan["ulasan"]))
 
         # Mengonversi data ulasan pelatihan dan pengujian ke dalam vektor menggunakan representasi TF-IDF yang sama
         X_train_vectors = [text_to_vector(document, tfidf_dict) for document in X_train]
