@@ -144,7 +144,7 @@ with implementation:
         # tfidf_wm = tfidfvectorizer.fit_transform(ulasan_dataset)
         # tfidf_tokens = tfidfvectorizer.get_feature_names_out()
         # df_tfidfvect = pd.DataFrame(data = tfidf_wm.toarray(),columns = tfidf_tokens)
-        with open('knnk3.pkl', 'rb') as file:
+        with open('knn.pkl', 'rb') as file:
             loaded_model = pickle.load(file)
         
         with open('tfidf.pkl', 'rb') as file:
@@ -166,10 +166,15 @@ with implementation:
 
         #Inputan 
         ulasan_case_folding,clean_symbols,tokens,gabung,stem = prep_input_data(iu)
+        st.write('Case Folding')
         st.write(ulasan_case_folding)
+        st.write('Cleaning Simbol')
         st.write(clean_symbols)
+        st.write('Token')
         st.write(tokens)
+        st.write('Stop Removal')
         st.write(gabung)
+        st.write('Stemming')
         st.write(stem)
 
         
