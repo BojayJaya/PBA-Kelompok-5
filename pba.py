@@ -145,21 +145,22 @@ if submit:
     predicted_label = knn_classifier.predict(input_ulasan)
 
     # Menampilkan hasil prediksi
-    print("Hasil Prediksi:")
-    print(f"Ulasan: {ulasan}")
-    print(f"Label: {predicted_label[0]}")
+    st.write("Hasil Prediksi:")
+    st.write(f"Ulasan: {ulasan}")
+    st.write(f"Label: {predicted_label[0]}")
 
     # Menghitung akurasi pada data uji
     y_pred = knn_classifier.predict(X_test_vectors)
     accuracy = accuracy_score(y_test, y_pred)
 
     # Menampilkan akurasi
-    print("Akurasi: {:.2f}%".format(accuracy * 100))
+    st.write("Akurasi: {:.2f}%".format(accuracy * 100))
 
     # Menampilkan label prediksi
-    print("Label Prediksi:")
+    st.write("Label Prediksi:")
     for i, (label, ulasan) in enumerate(zip(y_pred, X_test)):
-        print(f"Data Uji {i+1}:")
-        print(f"Ulasan: {ulasan}")
-        print(f"Label: {label}")
-        print()
+        st.write(f"Data Uji {i+1}:")
+        st.write(f"Ulasan: {ulasan}")
+        st.write(f"Label: {label}")
+        st.write()
+
