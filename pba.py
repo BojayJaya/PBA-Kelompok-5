@@ -104,15 +104,8 @@ if submit:
         if term not in term_dict:
             term_dict[term] = ' '
 
-    st.write(len(term_dict))
-    st.write("------------------------")
-
     for term in term_dict:
         term_dict[term] = stemmed_wrapper(term)
-        st.write(term, ":", term_dict[term])
-
-    st.write(term_dict)
-    st.write("------------------------")
 
     def get_stemmed_term(document):
         return [term_dict[term] for term in document]
@@ -135,7 +128,7 @@ if submit:
     X_test_vectors = tfidf_vectorizer.transform(X_test)
 
     # Klasifikasi menggunakan KNN
-    knn_classifier = KNeighborsClassifier(n_neighbors=3)
+    knn_classifier = KNeighborsClassifier(n_neighbors=7)
     knn_classifier.fit(X_train_vectors, y_train)
 
     # Mengubah ulasan yang dimasukkan menjadi representasi vektor menggunakan TF-IDF
