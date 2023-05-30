@@ -130,7 +130,7 @@ if submit:
     st.write(X_train)
     
     
-        def convert_text_list(texts):
+     def convert_text_list(texts):
         try:
             texts = ast.literal_eval(texts)
             if isinstance(texts, list):
