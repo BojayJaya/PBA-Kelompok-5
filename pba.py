@@ -11,7 +11,6 @@ nltk.download('stopwords')
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 import pickle
 from sklearn.metrics import accuracy_score
-from sklearn.feature_extraction.text import TfidfVectorizer
 
 st.title("PEMROSESAN BAHASA ALAMI A")
 st.write("### Dosen Pengampu : Dr. FIKA HASTARITA RACHMAN, ST., M.Eng")
