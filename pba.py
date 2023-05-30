@@ -128,7 +128,7 @@ if submit:
     X_test_vectors = tfidf_vectorizer.transform(X_test)
 
     # Klasifikasi menggunakan KNN
-    knn_classifier = KNeighborsClassifier(n_neighbors=9)
+    knn_classifier = KNeighborsClassifier(n_neighbors=3)
     knn_classifier.fit(X_train_vectors, y_train)
 
     # Mengubah ulasan yang dimasukkan menjadi representasi vektor menggunakan TF-IDF
@@ -147,11 +147,3 @@ if submit:
 
     # Menampilkan akurasi
     st.write("Akurasi: {:.2f}%".format(accuracy * 100))
-
-    # Menampilkan label prediksi
-    st.write("Label Prediksi:")
-    for i, (label, ulasan) in enumerate(zip(y_pred, X_test)):
-        st.write(f"Data Uji {i+1}:")
-        st.write(f"Ulasan: {ulasan}")
-        st.write(f"Label: {label}")
-        st.write()
