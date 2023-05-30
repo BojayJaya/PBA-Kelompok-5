@@ -22,8 +22,7 @@ import pickle
 import ast
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
-
-
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 ulasan = st.text_area('Masukkan kata yang akan di analisa :')
@@ -119,126 +118,48 @@ if submit:
 
     ulasan = get_stemmed_term(ulasan)
 
-
-    # dataset = pd.read_csv('https://raw.githubusercontent.com/BojayJaya/PBA-Kelompok-5/main/Text_Preprocessing.csv')
-
+    # Baca data ulasan dari file CSV
     Data_ulasan = pd.read_csv("https://raw.githubusercontent.com/BojayJaya/PBA-Kelompok-5/main/hasil_preprocessing.csv")
 
-    Data_ulasan = pd.DataFrame(Data_ulasan)
-    Data_ulasan.head()
-
+    # Pisahkan ulasan dan sentimen
     ulasan = Data_ulasan['ulasan_hasil_preprocessing']
     sentimen = Data_ulasan['label']
+
+    # Bagi data menjadi data pelatihan dan pengujian
     X_train, X_test, y_train, y_test = train_test_split(ulasan, sentimen, test_size=0.2, random_state=42)
 
-    def convert_text_list(texts):
-        try:
-            texts = ast.literal_eval(texts)
-            if isinstance(texts, list):
-                return texts
-            else:
-                return []
-        except (SyntaxError, ValueError):
-            return []
-
-    Data_ulasan["ulasan_list"] = Data_ulasan["ulasan_hasil_preprocessing"].apply(convert_text_list)
-
-    # Ekstraksi fitur menggunakan TF-IDF
-    def calculate_tf(corpus):
-        tf_dict = {}
-        for document in corpus:
-            words = document.split()
-            for word in words:
-                if word not in tf_dict:
-                    tf_dict[word] = 1
-                else:
-                    tf_dict[word] += 1
-        total_words = sum(tf_dict.values())
-        for word in tf_dict:
-            tf_dict[word] = tf_dict[word] / total_words
-        return tf_dict
-#         st.write(tf_dict)
-
-    def calculate_df(corpus):
-        df_dict = {}
-        for document in corpus:
-            words = set(document.split())
-            for word in words:
-                if word not in df_dict:
-                    df_dict[word] = 1
-                else:
-                    df_dict[word] += 1
-        return df_dict
-
-    def calculate_idf(corpus):
-        idf_dict = {}
-        N = len(corpus)
-        df_dict = calculate_df(corpus)
-        for word in df_dict:
-            idf_dict[word] = np.log(N / df_dict[word])
-        return idf_dict
-
-    def calculate_tfidf(tf_dict, idf_dict):
-        tfidf_dict = {}
-        for word in tf_dict:
-            if word in idf_dict:
-                tfidf_dict[word] = tf_dict[word] * idf_dict[word]
-            else:
-                tfidf_dict[word] = 0
-        return tfidf_dict
-
-    tf_train = calculate_tfidf(calculate_tf(X_train), calculate_idf(X_train))
-    tf_test = calculate_tfidf(calculate_tf(X_test), calculate_idf(X_train))
-
-    for i, document in enumerate(X_train):
-        tfidf_dict = calculate_tfidf(calculate_tf([document]), calculate_idf(X_train))
-        st.write(f"Document {i+1}:")
-        for word, tfidf in tfidf_dict.items():
-            st.write(f"{word}: {tfidf}")
-
-    def text_to_vector(text, tfidf_dict):
-        words = text.split()
-        vector = np.zeros(len(tfidf_dict))
-        for i, word in enumerate(tfidf_dict):
-            if word in words:
-                vector[i] = tfidf_dict[word]
-        return vector
-
-    # Menghitung representasi TF-IDF untuk seluruh data
-    tfidf_dict = calculate_tfidf(calculate_tf(Data_ulasan["ulasan_list"]), calculate_idf(Data_ulasan["ulasan_list"]))
-
-    # Mengonversi data ulasan pelatihan dan pengujian ke dalam vektor menggunakan representasi TF-IDF yang sama
-    X_train_vectors = [text_to_vector(document, tfidf_dict) for document in X_train]
-    X_test_vectors = [text_to_vector(document, tfidf_dict) for document in X_test]
+    # Inisialisasi dan fitur ekstraksi menggunakan TF-IDF
+    tfidf_vectorizer = TfidfVectorizer()
+    X_train_vectors = tfidf_vectorizer.fit_transform(X_train)
+    X_test_vectors = tfidf_vectorizer.transform(X_test)
 
     # Klasifikasi menggunakan KNN
     k = 3
     knn_classifier = KNeighborsClassifier(n_neighbors=k)
     knn_classifier.fit(X_train_vectors, y_train)
 
-
-    input_vector = text_to_vector(ulasan, tfidf_dict)
-    input_vector = np.array(input_vector).reshape(1, -1)
+    # Mengubah ulasan yang dimasukkan menjadi representasi vektor menggunakan TF-IDF
+    input_ulasan = tfidf_vectorizer.transform([ulasan])
 
     # Melakukan prediksi pada input ulasan
-    predicted_label = knn_classifier.predict(input_vector)
+    predicted_label = knn_classifier.predict(input_ulasan)
 
     # Menampilkan hasil prediksi
-    st.write("Hasil Prediksi:")
-    st.write(f"Ulasan: {ulasan}")
-    st.write(f"Label: {predicted_label[0]}")
+    print("Hasil Prediksi:")
+    print(f"Ulasan: {ulasan}")
+    print(f"Label: {predicted_label[0]}")
 
-# Menghitung akurasi pada data uji
-y_pred = knn_classifier.predict(X_test_vectors)
-accuracy = accuracy_score(y_test, y_pred)
+    # Menghitung akurasi pada data uji
+    y_pred = knn_classifier.predict(X_test_vectors)
+    accuracy = accuracy_score(y_test, y_pred)
 
-# Menampilkan akurasi
-st.write("Akurasi: {:.2f}%".format(accuracy * 100))
+    # Menampilkan akurasi
+    print("Akurasi: {:.2f}%".format(accuracy * 100))
 
-# Menampilkan label prediksi
-st.write("Label Prediksi:")
-for i, (label, ulasan) in enumerate(zip(y_pred, X_test)):
-    st.write(f"Data Uji {i+1}:")
-    st.write(f"Ulasan: {ulasan}")
-    st.write(f"Label: {label}")
-    st.write()
+    # Menampilkan label prediksi
+    print("Label Prediksi:")
+    for i, (label, ulasan) in enumerate(zip(y_pred, X_test)):
+        print(f"Data Uji {i+1}:")
+        print(f"Ulasan: {ulasan}")
+        print(f"Label: {label}")
+        print()
