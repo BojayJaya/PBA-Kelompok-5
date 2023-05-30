@@ -178,7 +178,7 @@ with implementation:
 
         
         #Prediksi
-        v_data = tfidfvectorizer.transform([stem]).toarray()
+        v_data = loaded_data_tfid.transform([stem]).toarray()
         y_preds = clf.predict(v_data)
 
         st.subheader('Akurasi')
