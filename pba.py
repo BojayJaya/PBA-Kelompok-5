@@ -90,7 +90,7 @@ with description:
 
 with implementation:
     st.write("""
-    <center><h2 style = "text-align: justify;">APLIKASI ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN)</h2></center>
+    <center><h4 style = "text-align: justify;">APLIKASI ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN)</h4></center>
     """,unsafe_allow_html=True)
 
     #Fractional Knapsack Problem
