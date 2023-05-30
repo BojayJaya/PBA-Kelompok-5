@@ -290,35 +290,21 @@ with Implementation:
         knn_classifier = KNeighborsClassifier(n_neighbors=k)
         knn_classifier.fit(X_train_vectors, y_train)
 
-    # Implementasi dengan Streamlit
-        st.title("Klasifikasi Sentimen Ulasan Menggunakan KNN")
-        st.write("Masukkan ulasan di bawah ini:")
-        ulasan = st.text_input("Silahkan Masukkan Ulasan Anda :")
+        # Mengubah input ulasan menjadi vektor
+        input_vector = text_to_vector(ulasan, tfidf_dict)
+        input_vector = np.array(input_vector).reshape(1, -1)
 
-        if st.button("Prediksi"):
-            # Mengubah input ulasan menjadi vektor
-            input_vector = text_to_vector(ulasan, tfidf_dict)
-            input_vector = np.array(input_vector).reshape(1, -1)
+        # Melakukan prediksi pada input ulasan
+        predicted_label = knn_classifier.predict(input_vector)
 
-            # Melakukan prediksi pada input ulasan
-            predicted_label = knn_classifier.predict(input_vector)
+        # Menampilkan hasil prediksi
+        st.write("Hasil Prediksi:")
+        st.write(f"Ulasan: {ulasan}")
+        st.write(f"Label: {predicted_label[0]}")
 
-            # Menampilkan hasil prediksi
-            st.write("Hasil Prediksi:")
-            st.write(f"Ulasan: {ulasan}")
-            st.write(f"Label: {predicted_label[0]}")
+    # Menghitung akurasi pada data uji
+    y_pred = knn_classifier.predict(X_test_vectors)
+    accuracy = accuracy_score(y_test, y_pred)
 
-        # Menghitung akurasi pada data uji
-        y_pred = knn_classifier.predict(X_test_vectors)
-        accuracy = accuracy_score(y_test, y_pred)
-
-        # Menampilkan akurasi
-        st.write("Akurasi: {:.2f}%".format(accuracy * 100))
-
-        # Menampilkan label prediksi
-        st.write("Label Prediksi:")
-        for i, (label, ulasan) in enumerate(zip(y_pred, X_test)):
-            st.write(f"Data Uji {i+1}:")
-            st.write(f"Ulasan: {ulasan}")
-            st.write(f"Label: {label}")
-            st.write()
+    # Menampilkan akurasi
+    st.write("Akurasi: {:.2f}%".format(accuracy * 100))
