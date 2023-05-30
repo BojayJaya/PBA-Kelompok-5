@@ -194,16 +194,8 @@ with Implementation:
 
         ulasan = get_stemmed_term(ulasan)
 
-        st.write("Menyimpan data hasil preprocessing ke pickle")
-        with open('data.pickle', 'wb') as file:
-            pickle.dump(dataset, file)
-
-        # Memuat data dari file pickle
-        with open('data.pickle', 'rb') as file:
-            loaded_data = pickle.load(file)
-
-        Data_ulasan = pd.DataFrame(loaded_data, columns=["label", "ulasan"])
-        Data_ulasan.head()
+        Data_ulasan = pd.read_csv("https://raw.githubusercontent.com/BojayJaya/PBA-Kelompok-5/main/Text_Preprocessing.csv", usecols=["label", 'ulasan_tokens_stemmed'])
+        Data_ulasan.columns = ["label", "ulasan"]
 
         ulasan = Data_ulasan['ulasan']
         sentimen = Data_ulasan['label']
