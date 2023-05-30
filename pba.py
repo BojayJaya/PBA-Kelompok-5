@@ -30,6 +30,7 @@ ulasan = st.text_area('Masukkan kata yang akan di analisa :')
 submit = st.button("submit")
 
 if submit:
+    lower_case = ulasan.str.lower()
     def hapus_tweet_khusus(text):
         text = text.replace('\\t', " ").replace('\\n', " ").replace('\\u', " ").replace('\\', "")
         text = text.encode('ascii', 'replace').decode('ascii')
