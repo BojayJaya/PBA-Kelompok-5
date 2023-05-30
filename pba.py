@@ -95,13 +95,13 @@ with implementation:
 
     #Fractional Knapsack Problem
     #Getting input from user
-    word = st.text_area('Masukkan kata yang akan di analisa :')
+    iu = st.text_area('Masukkan kata yang akan di analisa :')
 
     submit = st.button("submit")
 
     if submit:
-        def prep_input_data(word):
-            ulasan_case_folding = word.lower()
+        def prep_input_data(iu):
+            ulasan_case_folding = iu.lower()
 
             #Cleansing
             clean_tag  = re.sub("@[A-Za-z0-9_]+","", ulasan_case_folding)
@@ -140,17 +140,17 @@ with implementation:
         sentimen = Data_ulasan['label']
 
         # TfidfVectorizer 
-        tfidfvectorizer = TfidfVectorizer(analyzer='word')
-        tfidf_wm = tfidfvectorizer.fit_transform(ulasan_dataset)
-        tfidf_tokens = tfidfvectorizer.get_feature_names_out()
-        df_tfidfvect = pd.DataFrame(data = tfidf_wm.toarray(),columns = tfidf_tokens)
+        # tfidfvectorizer = TfidfVectorizer(analyzer='iu')
+        # tfidf_wm = tfidfvectorizer.fit_transform(ulasan_dataset)
+        # tfidf_tokens = tfidfvectorizer.get_feature_names_out()
+        # df_tfidfvect = pd.DataFrame(data = tfidf_wm.toarray(),columns = tfidf_tokens)
         with open('knn.pkl', 'rb') as file:
             loaded_model = pickle.load(file)
         
-        # with open('tfidf.pkl', 'rb') as file:
-        #     loaded_data_tfid = pickle.load(file)
+        with open('tfidf.pkl', 'rb') as file:
+            loaded_data_tfid = pickle.load(file)
         
-        # tfidf_wm = loaded_data_tfid.fit_transform(names)
+        tfidf_wm = loaded_data_tfid.fit_transform(ulasan_dataset)
 
         #Train test split
         training, test, training_label, test_label  = train_test_split(tfidf_wm, sentimen,test_size=0.2, random_state=42)#Nilai X training dan Nilai X testing
@@ -164,7 +164,7 @@ with implementation:
         akurasi = accuracy_score(test_label, y_pred)
 
         #Inputan 
-        ulasan_case_folding,clean_symbols,tokens,gabung,stem = prep_input_data(word)
+        ulasan_case_folding,clean_symbols,tokens,gabung,stem = prep_input_data(iu)
         st.write(ulasan_case_folding)
         st.write(clean_symbols)
         st.write(tokens)
@@ -173,7 +173,7 @@ with implementation:
 
         
         #Prediksi
-        v_data = tfidfvectorizer.transform([stem]).toarray()
+        v_data = loaded_data_tfid.transform([stem]).toarray()
         y_preds = clf.predict(v_data)
 
         st.subheader('Akurasi')
