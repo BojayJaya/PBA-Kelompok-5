@@ -119,8 +119,6 @@ if submit:
     ulasan = get_stemmed_term(ulasan)
     
     
-    Data_ulasan = pd.read_csv("https://raw.githubusercontent.com/BojayJaya/PBA-Kelompok-5/main/Text_Preprocessing.csv", usecols=["label", 'ulasan_tokens_stemmed'])
-    Data_ulasan = pd.DataFrame(Data_ulasan, columns=["label", "ulasan"])
-#     Data_ulasan.head()
-    
+    Data_ulasan = pd.read_csv("https://raw.githubusercontent.com/BojayJaya/PBA-Kelompok-5/main/hasil_preprocessing.csv")
+    Data_ulasan = pd.DataFrame(Data_ulasan)
     st.write(Data_ulasan)
