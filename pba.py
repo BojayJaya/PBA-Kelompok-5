@@ -153,7 +153,7 @@ with implementation:
         tfidf_wm = loaded_data_tfid.fit_transform(ulasan_dataset)
 
         #Train test split
-        training, test, training_label, test_label  = train_test_split(tfidf_wm, sentimen,test_size=0.2, random_state=1)#Nilai X training dan Nilai X testing 80 20
+        training, test, training_label, test_label  = train_test_split(tfidf_wm, sentimen,test_size=0.2, random_state=10)#Nilai X training dan Nilai X testing 80 20
 #         training, test, training_label, test_label  = train_test_split(tfidf_wm, sentimen,test_size=0.3, random_state=42)#Nilai X training dan Nilai X testing 70 30
 #         training, test, training_label, test_label  = train_test_split(tfidf_wm, sentimen,test_size=0.4, random_state=42)#Nilai X training dan Nilai X testing 60 40
         # training_label, test_label = train_test_split(, test_size=0.2, random_state=42)#Nilai Y training dan Nilai Y testing    
