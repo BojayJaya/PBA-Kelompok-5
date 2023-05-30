@@ -1,38 +1,20 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
-from PIL import Image
-import altair as alt
-from sklearn.preprocessing import MinMaxScaler
-from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
-from sklearn.neighbors import KNeighborsClassifier
+from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory
 import nltk
 nltk.download('punkt')
-import string 
 import re
 from nltk.tokenize import RegexpTokenizer
-from nltk.tokenize import word_tokenize
-from nltk.probability import FreqDist
-from nltk.corpus import stopwords
 nltk.download('stopwords')
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 import pickle
-import ast
-from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
-
-st.title("PEMROSESAN BAHASA ALAMI A")
-st.write("### Dosen Pengampu : Dr. FIKA HASTARITA RACHMAN, ST., M.Eng")
-st.write("#### Kelompok : 5")
-st.write("##### Hambali Fitrianto - 200411100074")
-st.write("##### Pramudya Dwi Febrianto - 200411100042")
-st.write("##### Febrian Achmad Syahputra - 200411100106")
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 #Navbar
 description, Implementation = st.tabs(["Description", "Implementation"])
-dataset = pd.read_csv("https://raw.githubusercontent.com/Feb11F/dataset/main/dieng_sentiment_pn.csv")
 
 #data_set_description
 with description:
@@ -99,201 +81,99 @@ with description:
     st.write("###### Source Code Aplikasi ada di Github anda bisa acces di link : https://github.com/BojayJaya/PBA-Kelompok-5")
     st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6282138614807 ")
 
-with Implementation:
-    ulasan = st.text_input("Silahkan Masukkan Ulasan Anda :")
-    submit = st.button("Submit")
+with description:
+    st.write("""
+    <center><h2 style = "text-align: justify;">APLIKASI ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN)</h2></center>
+    """,unsafe_allow_html=True)
+
+    #Fractional Knapsack Problem
+    #Getting input from user
+    word = st.text_area('Masukkan kata yang akan di analisa :')
+
+    submit = st.button("submit")
 
     if submit:
-        ulasan = ulasan.lower()
+        def prep_input_data(word):
+            ulasan_case_folding = word.lower()
 
-        def hapus_tweet_khusus(text):
-            text = text.replace('\\t', " ").replace('\\n', " ").replace('\\u', " ").replace('\\', "")
-            text = text.encode('ascii', 'replace').decode('ascii')
-            text = ' '.join(re.sub("([@#][A-Za-z0-9]+)|(\w+:\/\/\S+)", " ", text).split())
-            return text.replace("http://", " ").replace("https://", " ")
-
-        ulasan = hapus_tweet_khusus(ulasan)
-
-        def hapus_nomor(text):
-            return re.sub(r"\d+", "", text)
-
-        ulasan = hapus_nomor(ulasan)
-
-        def hapus_tanda_baca(text):
-            return text.translate(str.maketrans("", "", string.punctuation))
-
-        ulasan = hapus_tanda_baca(ulasan)
-
-        def hapus_whitespace_LT(text):
-            return text.strip()
-
-        ulasan = hapus_whitespace_LT(ulasan)
-
-        def hapus_whitespace_multiple(text):
-            return re.sub('\s+', ' ', text)
-
-        ulasan = hapus_whitespace_multiple(ulasan)
-
-        def hapus_single_char(text):
-            return re.sub(r"\b[a-zA-Z]\b", "", text)
-
-        ulasan = hapus_single_char(ulasan)
-
-        def word_tokenize_wrapper(text):
+            #Cleansing
+            clean_tag  = re.sub("@[A-Za-z0-9_]+","", ulasan_case_folding)
+            clean_hashtag = re.sub("#[A-Za-z0-9_]+","", clean_tag)
+            clean_https = re.sub(r'http\S+', '', clean_hashtag)
+            clean_symbols = re.sub("[^a-zA-Z ]+"," ", clean_https)
+            
+            #Inisialisai fungsi tokenisasi dan stopword
+            # stop_factory = StopWordRemoverFactory()
             tokenizer = RegexpTokenizer(r'dataran\s+tinggi|jawa\s+tengah|[\w\']+')
-            tokens = tokenizer.tokenize(text)
-            return tokens
+            tokens = tokenizer.tokenize(clean_symbols)
 
-        ulasan = word_tokenize_wrapper(ulasan)
+            #Stop Words
+            stop_factory = StopWordRemoverFactory()
+            more_stopword = ["yg", "dg", "rt", "dgn", "ny", "d", 'klo', 'kalo', 'amp', 'biar', 'bikin', 'bilang',
+                            'gak', 'ga', 'krn', 'nya', 'nih', 'sih', 'si', 'tau', 'tdk', 'tuh', 'utk', 'ya',
+                            'jd', 'jgn', 'sdh', 'aja', 'n', 't', 'nyg', 'hehe', 'pen', 'u', 'nan', 'loh', 'rt',
+                            '&amp', 'yah']
+            data = stop_factory.get_stop_words()+more_stopword
+            removed = []
+            if tokens not in data:
+                removed.append(tokens)
 
-        def freqDist_wrapper(text):
-            return FreqDist(text)
+            #list to string
+            gabung =' '.join([str(elem) for elem in removed])
 
-        ulasan = freqDist_wrapper(ulasan)
+            #Steaming
+            factory = StemmerFactory()
+            stemmer = factory.create_stemmer()
+            stem = stemmer.stem(gabung)
+            return(ulasan_case_folding,clean_symbols,tokens,gabung,stem)
 
-        list_stopwords = stopwords.words('indonesian')
-        list_stopwords.extend(["yg", "dg", "rt", "dgn", "ny", "d", 'klo', 'kalo', 'amp', 'biar', 'bikin', 'bilang',
-                                'gak', 'ga', 'krn', 'nya', 'nih', 'sih', 'si', 'tau', 'tdk', 'tuh', 'utk', 'ya',
-                                'jd', 'jgn', 'sdh', 'aja', 'n', 't', 'nyg', 'hehe', 'pen', 'u', 'nan', 'loh', 'rt',
-                                '&amp', 'yah'])
-
-        txt_stopword = pd.read_csv("https://raw.githubusercontent.com/masdevid/ID-Stopwords/master/id.stopwords.02.01.2016.txt", names=["stopwords"], header=None)
-
-        list_stopwords.extend(txt_stopword["stopwords"][0].split(' '))
-        list_stopwords = set(list_stopwords)
-
-        def stopwords_removal(words):
-            return [word for word in words if word not in list_stopwords]
-
-        ulasan = stopwords_removal(ulasan)
-
-        factory = StemmerFactory()
-        stemmer = factory.create_stemmer()
-
-        def stemmed_wrapper(term):
-            return stemmer.stem(term)
-
-        term_dict = {}
-
-        for term in ulasan:
-            if term not in term_dict:
-                term_dict[term] = ' '
-
-        st.write(len(term_dict))
-        st.write("------------------------")
-
-        for term in term_dict:
-            term_dict[term] = stemmed_wrapper(term)
-            st.write(term, ":", term_dict[term])
-
-        st.write(term_dict)
-        st.write("------------------------")
-
-        def get_stemmed_term(document):
-            return [term_dict[term] for term in document]
-
-        ulasan = get_stemmed_term(ulasan)
-
-        Data_ulasan = pd.read_csv("https://raw.githubusercontent.com/BojayJaya/PBA-Kelompok-5/main/Text_Preprocessing.csv", usecols=["label", 'ulasan_tokens_stemmed'])
-        Data_ulasan.columns = ["label", "ulasan"]
-
-        ulasan = Data_ulasan['ulasan']
+        #Dataset
+        Data_ulasan = pd.read_csv("https://raw.githubusercontent.com/BojayJaya/PBA-Kelompok-5/main/hasil_preprocessing.csv")
+        ulasan_dataset = Data_ulasan['ulasan_hasil_preprocessing']
         sentimen = Data_ulasan['label']
-        X_train, X_test, y_train, y_test = train_test_split(ulasan, sentimen, test_size=0.2, random_state=42)
 
-        def convert_text_list(texts):
-            try:
-                texts = ast.literal_eval(texts)
-                if isinstance(texts, list):
-                    return texts
-                else:
-                    return []
-            except (SyntaxError, ValueError):
-                return []
+        # TfidfVectorizer 
+        tfidfvectorizer = TfidfVectorizer(analyzer='word')
+        tfidf_wm = tfidfvectorizer.fit_transform(ulasan_dataset)
+        tfidf_tokens = tfidfvectorizer.get_feature_names_out()
+        df_tfidfvect = pd.DataFrame(data = tfidf_wm.toarray(),columns = tfidf_tokens)
+        with open('knn.pkl', 'rb') as file:
+            loaded_model = pickle.load(file)
+        
+        # with open('tfidf.pkl', 'rb') as file:
+        #     loaded_data_tfid = pickle.load(file)
+        
+        # tfidf_wm = loaded_data_tfid.fit_transform(names)
 
-        Data_ulasan["ulasan_list"] = Data_ulasan["ulasan"].apply(convert_text_list)
-        st.write(Data_ulasan["ulasan_list"][90])
-        st.write("\ntype: ", type(Data_ulasan["ulasan_list"][90]))
+        #Train test split
+        training, test, training_label, test_label  = train_test_split(tfidf_wm, sentimen,test_size=0.2, random_state=42)#Nilai X training dan Nilai X testing
+        # training_label, test_label = train_test_split(, test_size=0.2, random_state=42)#Nilai Y training dan Nilai Y testing    
 
-        def convert_text_list(texts):
-            try:
-                texts = ast.literal_eval(texts)
-                if isinstance(texts, list):
-                    return texts
-                else:
-                    return []
-            except (SyntaxError, ValueError):
-                return []
+        #model
+        clf = loaded_model.fit(training, training_label)
+        y_pred = clf.predict(test)
 
-        Data_ulasan["ulasan_list"] = Data_ulasan["ulasan"].apply(convert_text_list)
-        st.write(Data_ulasan["ulasan_list"][90])
-        st.write("\ntype: ", type(Data_ulasan["ulasan_list"][90]))
+        #Evaluasi
+        akurasi = accuracy_score(test_label, y_pred)
 
-        # Ekstraksi fitur menggunakan TF-IDF
-        def calculate_tf(corpus):
-            tf_dict = {}
-            for document in corpus:
-                words = document.split()
-                for word in words:
-                    if word not in tf_dict:
-                        tf_dict[word] = 1
-                    else:
-                        tf_dict[word] += 1
-            total_words = sum(tf_dict.values())
-            for word in tf_dict:
-                tf_dict[word] = tf_dict[word] / total_words
-            return tf_dict
+        #Inputan 
+        ulasan_case_folding,clean_symbols,tokens,gabung,stem = prep_input_data(word)
+        st.write(ulasan_case_folding)
+        st.write(clean_symbols)
+        st.write(tokens)
+        st.write(gabung)
+        st.write(stem)
 
-        def calculate_idf(corpus):
-            idf_dict = {}
-            N = len(corpus)
-            all_words = set([word for document in corpus for word in document.split()])
-            for word in all_words:
-                count = sum(1 for document in corpus if word in document)
-                idf_dict[word] = np.log(N / (1 + count))
-            return idf_dict
+        
+        #Prediksi
+        v_data = tfidfvectorizer.transform([stem]).toarray()
+        y_preds = clf.predict(v_data)
 
-        def calculate_tfidf(document, tf_dict, idf_dict):
-            words = document.split()
-            vector = np.zeros(len(tf_dict))
-            for i, word in enumerate(tf_dict):
-                if word in words:
-                    vector[i] = tf_dict[word] * idf_dict[word]
-            return vector
+        st.subheader('Akurasi')
+        st.info(akurasi)
 
-        tf_train = calculate_tf(X_train)
-        idf_train = calculate_idf(X_train)
-
-        X_train_vectors = [calculate_tfidf(document, tf_train, idf_train) for document in X_train]
-        X_test_vectors = [calculate_tfidf(document, tf_train, idf_train) for document in X_test]
-
-        def text_to_vector(text, tf_dict, idf_dict):
-            words = text.split()
-            vector = np.zeros(len(tf_dict))
-            for i, word in enumerate(tf_dict):
-                if word in words:
-                    vector[i] = tf_dict[word] * idf_dict[word]
-            return vector
-
-        # Mengubah input ulasan menjadi vektor
-        input_vector = text_to_vector(ulasan, tf_train, idf_train)
-        input_vector = np.array(input_vector).reshape(1, -1)
-
-        k = 3
-        knn_classifier = KNeighborsClassifier(n_neighbors=k)
-        knn_classifier.fit(X_train_vectors, y_train)
-
-        # Melakukan prediksi pada input ulasan
-        predicted_label = knn_classifier.predict(input_vector)
-
-        # Menampilkan hasil prediksi
-        st.write("Hasil Prediksi:")
-        st.write(f"Ulasan: {ulasan}")
-        st.write(f"Label: {predicted_label[0]}")
-
-        # Menghitung akurasi pada data uji
-        y_pred = knn_classifier.predict(X_test_vectors)
-        accuracy = accuracy_score(y_test, y_pred)
-
-        # Menampilkan akurasi
-        st.write("Akurasi: {:.2f}%".format(accuracy * 100))
+        st.subheader('Prediksi')
+        if y_preds == "positif":
+            st.success('Positive')
+        else:
+            st.error('Negative')
