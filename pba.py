@@ -162,18 +162,14 @@ with implementation:
 
         #Evaluasi
         akurasi = accuracy_score(test_label, y_pred)
+        akurasi_persen = akurasi * 100
 
         #Inputan 
         ulasan_case_folding,clean_symbols,tokens,gabung,stem = prep_input_data(iu)
-        st.write('Case Folding :')
         st.write(ulasan_case_folding)
-        st.write('Cleaning Simbol :')
         st.write(clean_symbols)
-        st.write('Token :')
         st.write(tokens)
-        st.write('Stopword Removal :')
         st.write(gabung)
-        st.write('Stemming :')
         st.write(stem)
 
         
@@ -182,7 +178,8 @@ with implementation:
         y_preds = clf.predict(v_data)
 
         st.subheader('Akurasi')
-        st.info(akurasi)
+        # st.info(akurasi)
+        st.info(f"{akurasi_persen:.2f}%")
 
         st.subheader('Prediksi')
         if y_preds == "positif":
