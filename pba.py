@@ -179,23 +179,34 @@ with Implementation:
             if term not in term_dict:
                 term_dict[term] = ' '
 
+        st.write(len(term_dict))
+        st.write("------------------------")
+
         for term in term_dict:
             term_dict[term] = stemmed_wrapper(term)
             st.write(term, ":", term_dict[term])
+
+        st.write(term_dict)
+        st.write("------------------------")
 
         def get_stemmed_term(document):
             return [term_dict[term] for term in document]
 
         ulasan = get_stemmed_term(ulasan)
 
-        # Baca data ulasan dari file CSV
-        Data_ulasan = pd.read_csv("https://raw.githubusercontent.com/BojayJaya/PBA-Kelompok-5/main/Text_Preprocessing.csv")
+        st.write("Menyimpan data hasil preprocessing ke pickle")
+        with open('data.pickle', 'wb') as file:
+            pickle.dump(dataset, file)
 
-        # Pisahkan ulasan dan sentimen
-        ulasan = Data_ulasan['ulasan_tokens_stemmed']
+        # Memuat data dari file pickle
+        with open('data.pickle', 'rb') as file:
+            loaded_data = pickle.load(file)
+
+        Data_ulasan = pd.DataFrame(loaded_data, columns=["label", "ulasan"])
+        Data_ulasan.head()
+
+        ulasan = Data_ulasan['ulasan']
         sentimen = Data_ulasan['label']
-
-        # Bagi data menjadi data pelatihan dan pengujian
         X_train, X_test, y_train, y_test = train_test_split(ulasan, sentimen, test_size=0.2, random_state=42)
 
         def convert_text_list(texts):
@@ -208,7 +219,7 @@ with Implementation:
             except (SyntaxError, ValueError):
                 return []
 
-        Data_ulasan["ulasan_list"] = Data_ulasan["ulasan_tokens_stemmed"].apply(convert_text_list)
+        Data_ulasan["ulasan_list"] = Data_ulasan["ulasan"].apply(convert_text_list)
         st.write(Data_ulasan["ulasan_list"][90])
         st.write("\ntype: ", type(Data_ulasan["ulasan_list"][90]))
 
@@ -290,9 +301,9 @@ with Implementation:
         st.write(f"Ulasan: {ulasan}")
         st.write(f"Label: {predicted_label[0]}")
 
-        # Menghitung akurasi pada data uji
-        y_pred = knn_classifier.predict(X_test_vectors)
-        accuracy = accuracy_score(y_test, y_pred)
+    # Menghitung akurasi pada data uji
+    y_pred = knn_classifier.predict(X_test_vectors)
+    accuracy = accuracy_score(y_test, y_pred)
 
-        # Menampilkan akurasi
-        st.write("Akurasi: {:.2f}%".format(accuracy * 100))
+    # Menampilkan akurasi
+    st.write("Akurasi: {:.2f}%".format(accuracy * 100))
