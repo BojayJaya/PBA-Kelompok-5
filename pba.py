@@ -13,8 +13,15 @@ import pickle
 from sklearn.metrics import accuracy_score
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+st.title("PEMROSESAN BAHASA ALAMI A")
+st.write("### Dosen Pengampu : Dr. FIKA HASTARITA RACHMAN, ST., M.Eng")
+st.write("#### Kelompok : 5")
+st.write("##### Hambali Fitrianto - 200411100074")
+st.write("##### Pramudya Dwi Febrianto - 200411100042")
+st.write("##### Febrian Achmad Syahputra - 200411100106")
+
 #Navbar
-description, Implementation = st.tabs(["Description", "Implementation"])
+description, implementation = st.tabs(["Description", "Implementation"])
 
 #data_set_description
 with description:
@@ -81,7 +88,7 @@ with description:
     st.write("###### Source Code Aplikasi ada di Github anda bisa acces di link : https://github.com/BojayJaya/PBA-Kelompok-5")
     st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6282138614807 ")
 
-with description:
+with implementation:
     st.write("""
     <center><h2 style = "text-align: justify;">APLIKASI ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN)</h2></center>
     """,unsafe_allow_html=True)
