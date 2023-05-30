@@ -140,10 +140,10 @@ with implementation:
         sentimen = Data_ulasan['label']
 
         # TfidfVectorizer 
-#         tfidfvectorizer = TfidfVectorizer(analyzer='word')
-#         tfidf_wm = tfidfvectorizer.fit_transform(ulasan_dataset)
-#         tfidf_tokens = tfidfvectorizer.get_feature_names_out()
-#         df_tfidfvect = pd.DataFrame(data = tfidf_wm.toarray(),columns = tfidf_tokens)
+        # tfidfvectorizer = TfidfVectorizer(analyzer='word')
+        # tfidf_wm = tfidfvectorizer.fit_transform(ulasan_dataset)
+        # tfidf_tokens = tfidfvectorizer.get_feature_names_out()
+        # df_tfidfvect = pd.DataFrame(data = tfidf_wm.toarray(),columns = tfidf_tokens)
         with open('knn.pkl', 'rb') as file:
             loaded_model = pickle.load(file)
         
