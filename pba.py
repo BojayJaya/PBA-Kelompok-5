@@ -131,8 +131,13 @@ if submit:
     knn_classifier = KNeighborsClassifier(n_neighbors=3)
     knn_classifier.fit(X_train_vectors, y_train)
 
-    # Mengubah ulasan yang dimasukkan menjadi representasi vektor menggunakan TF-IDF
-    input_ulasan = tfidf_vectorizer.transform([" ".join(ulasan)])
+    label_count = y_train.value_counts()
+
+    if label_count["positif"] > label_count["negatif"]:
+        input_ulasan = tfidf_vectorizer.transform([" ".join(ulasan)])
+    else:
+        input_ulasan = tfidf_vectorizer.transform([" ".join(ulasan)])
+
 
     # Melakukan prediksi pada input ulasan
     predicted_label = knn_classifier.predict(input_ulasan)
