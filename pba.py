@@ -133,11 +133,14 @@ if submit:
 
     label_count = y_train.value_counts()
 
-    if label_count["positif"] > label_count["negatif"]:
-        input_ulasan = tfidf_vectorizer.transform([" ".join(ulasan)])
+    if "positif" in label_count.index and "negatif" in label_count.index:
+        if label_count["positif"] > label_count["negatif"]:
+            input_ulasan = tfidf_vectorizer.transform([" ".join(ulasan)])
+        else:
+            input_ulasan = tfidf_vectorizer.transform([" ".join(ulasan)])
+        predicted_label = knn_classifier.predict(input_ulasan)
     else:
-        input_ulasan = tfidf_vectorizer.transform([" ".join(ulasan)])
-
+        st.error("Kolom label tidak sesuai. Pastikan nama kolom label dalam DataFrame `y_train` adalah 'positif' dan 'negatif'.")
 
     # Melakukan prediksi pada input ulasan
     predicted_label = knn_classifier.predict(input_ulasan)
