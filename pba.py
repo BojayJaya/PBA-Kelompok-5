@@ -195,7 +195,7 @@ with Implementation:
         ulasan = get_stemmed_term(ulasan)
 
         # Baca data ulasan dari file CSV
-        Data_ulasan = pd.read_csv("https://raw.githubusercontent.com/BojayJaya/PBA-Kelompok-5/main/hasil_preprocessing.csv")
+        Data_ulasan = pd.read_csv("https://raw.githubusercontent.com/BojayJaya/PBA-Kelompok-5/main/Text_Preprocessing.csv")
 
         # Pisahkan ulasan dan sentimen
         ulasan = Data_ulasan['ulasan_hasil_preprocessing']
