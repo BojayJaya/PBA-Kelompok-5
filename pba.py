@@ -134,8 +134,7 @@ if submit:
     X_test_vectors = tfidf_vectorizer.transform(X_test)
 
     # Klasifikasi menggunakan KNN
-    k = 3
-    knn_classifier = KNeighborsClassifier(n_neighbors=k)
+    knn_classifier = KNeighborsClassifier()
     knn_classifier.fit(X_train_vectors, y_train)
 
     # Mengubah ulasan yang dimasukkan menjadi representasi vektor menggunakan TF-IDF
