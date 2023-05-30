@@ -123,4 +123,4 @@ if submit:
     Data_ulasan = pd.DataFrame(Data_ulasan, columns=["label", "ulasan"])
 #     Data_ulasan.head()
     
-    st.write(Data_ulasa)
+    st.write(Data_ulasan)
