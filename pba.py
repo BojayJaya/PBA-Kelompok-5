@@ -184,7 +184,7 @@ with implementation:
         st.info(akurasi)
 
         st.subheader('Prediksi')
-        if y_preds == "positif":
+        if y_preds == "positive":
             st.success('Positive')
         else:
             st.error('Negative')
