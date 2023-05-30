@@ -122,3 +122,9 @@ if submit:
     Data_ulasan = pd.read_csv("https://raw.githubusercontent.com/BojayJaya/PBA-Kelompok-5/main/hasil_preprocessing.csv")
     Data_ulasan = pd.DataFrame(Data_ulasan)
     st.write(Data_ulasan)
+    
+    ulasan = Data_ulasan['ulasan_hasil_preprocessing']
+    sentimen = Data_ulasan['label']
+    X_train, X_test, y_train, y_test = train_test_split(ulasan, sentimen, test_size=0.2, random_state=42)
+    
+    st.write(X_train)
