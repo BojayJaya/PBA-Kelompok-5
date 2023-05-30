@@ -25,6 +25,7 @@ from sklearn.metrics import accuracy_score
 
 
 
+
 ulasan = st.text_area('Masukkan kata yang akan di analisa :')
 submit = st.button("submit")
 
@@ -117,19 +118,21 @@ if submit:
         return [term_dict[term] for term in document]
 
     ulasan = get_stemmed_term(ulasan)
-    
-    
+
+
+    # dataset = pd.read_csv('https://raw.githubusercontent.com/BojayJaya/PBA-Kelompok-5/main/Text_Preprocessing.csv')
+
     Data_ulasan = pd.read_csv("https://raw.githubusercontent.com/BojayJaya/PBA-Kelompok-5/main/hasil_preprocessing.csv")
+
     Data_ulasan = pd.DataFrame(Data_ulasan)
-    st.write(Data_ulasan)
-    
+    Data_ulasan.head()
+
     ulasan = Data_ulasan['ulasan_hasil_preprocessing']
     sentimen = Data_ulasan['label']
     X_train, X_test, y_train, y_test = train_test_split(ulasan, sentimen, test_size=0.2, random_state=42)
-    
-    st.write(X_train)
-    
-    
+
+
+
     def convert_text_list(texts):
         try:
             texts = ast.literal_eval(texts)
@@ -211,5 +214,44 @@ if submit:
     # Mengonversi data ulasan pelatihan dan pengujian ke dalam vektor menggunakan representasi TF-IDF yang sama
     X_train_vectors = [text_to_vector(document, tfidf_dict) for document in X_train]
     X_test_vectors = [text_to_vector(document, tfidf_dict) for document in X_test]
-    
-    st.write(X_train_vectors)
+
+    # Menampilkan Term Frequency (TF)
+    st.write("Term Frequency (TF):")
+
+    # Menampilkan Document Frequency (DF)
+    st.write("Document Frequency (DF):")
+
+    # Menampilkan Inverse Document Frequency (IDF)
+    st.write("Inverse Document Frequency (IDF):")
+
+    # Klasifikasi menggunakan KNN
+    k = 3
+    knn_classifier = KNeighborsClassifier(n_neighbors=k)
+    knn_classifier.fit(X_train_vectors, y_train)
+
+
+    input_vector = text_to_vector(ulasan, tfidf_dict)
+    input_vector = np.array(input_vector).reshape(1, -1)
+
+    # Melakukan prediksi pada input ulasan
+    predicted_label = knn_classifier.predict(input_vector)
+
+    # Menampilkan hasil prediksi
+    st.write("Hasil Prediksi:")
+    st.write(f"Ulasan: {ulasan}")
+    st.write(f"Label: {predicted_label[0]}")
+
+# Menghitung akurasi pada data uji
+y_pred = knn_classifier.predict(X_test_vectors)
+accuracy = accuracy_score(y_test, y_pred)
+
+# Menampilkan akurasi
+st.write("Akurasi: {:.2f}%".format(accuracy * 100))
+
+# Menampilkan label prediksi
+st.write("Label Prediksi:")
+for i, (label, ulasan) in enumerate(zip(y_pred, X_test)):
+    st.write(f"Data Uji {i+1}:")
+    st.write(f"Ulasan: {ulasan}")
+    st.write(f"Label: {label}")
+    st.write()
