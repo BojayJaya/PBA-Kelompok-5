@@ -144,7 +144,7 @@ with implementation:
         # tfidf_wm = tfidfvectorizer.fit_transform(ulasan_dataset)
         # tfidf_tokens = tfidfvectorizer.get_feature_names_out()
         # df_tfidfvect = pd.DataFrame(data = tfidf_wm.toarray(),columns = tfidf_tokens)
-        with open('knnk11.pkl', 'rb') as file:
+        with open('knnk3.pkl', 'rb') as file:
             loaded_model = pickle.load(file)
         
         with open('tfidf.pkl', 'rb') as file:
@@ -154,8 +154,8 @@ with implementation:
 
         #Train test split
 #         training, test, training_label, test_label  = train_test_split(tfidf_wm, sentimen,test_size=0.2, random_state=42)#Nilai X training dan Nilai X testing 80 20
-        training, test, training_label, test_label  = train_test_split(tfidf_wm, sentimen,test_size=0.3, random_state=42)#Nilai X training dan Nilai X testing 70 30
-#         training, test, training_label, test_label  = train_test_split(tfidf_wm, sentimen,test_size=0.4, random_state=42)#Nilai X training dan Nilai X testing 60 40
+#         training, test, training_label, test_label  = train_test_split(tfidf_wm, sentimen,test_size=0.3, random_state=42)#Nilai X training dan Nilai X testing 70 30
+        training, test, training_label, test_label  = train_test_split(tfidf_wm, sentimen,test_size=0.4, random_state=42)#Nilai X training dan Nilai X testing 60 40
         # training_label, test_label = train_test_split(, test_size=0.2, random_state=42)#Nilai Y training dan Nilai Y testing    
 
         #model
