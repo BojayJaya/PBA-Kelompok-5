@@ -147,7 +147,7 @@ if submit:
     # Menampilkan hasil prediksi
     st.write("Hasil Prediksi:")
 #     st.write(f"Ulasan: {ulasan}")
-#     st.write(f"Label: {predicted_label[0]}")
+    st.write(f"Label: {predicted_label[0]}")
 
     # Menghitung akurasi pada data uji
     y_pred = knn_classifier.predict(X_test_vectors)
