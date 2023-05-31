@@ -23,7 +23,7 @@ st.write("##### Febrian Achmad Syahputra - 200411100106")
 #Navbar
 judul, description, implementation = st.tabs(["Judul", "Description", "Implementation"])
 
-with description:
+with judul:
     st.write("###### ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN) ")
 with description:
     st.write("""###### Penjelasan Prepocessing Data : """)
