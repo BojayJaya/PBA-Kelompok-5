@@ -21,7 +21,7 @@ st.write("##### Pramudya Dwi Febrianto - 200411100042")
 st.write("##### Febrian Achmad Syahputra - 200411100106")
 
 #Navbar
-judul, preprocessing, tfidf, implementation = st.tabs(["Judul", "Penjelasan Preprocessing", "Penjelasan TF-IDF", "Implementasi"])
+judul, preprocessing, tfidf, sourcecode, implementatisi = st.tabs(["Judul", "Penjelasan Preprocessing", "Penjelasan TF-IDF", "Source Code Apk", "Implementasi"])
 
 with judul:
     st.write("""###### Judul : """)
@@ -85,13 +85,13 @@ with tfidf:
     st.write("""Dalam perhitungan TF-IDF, TF(term, document) adalah nilai TF untuk term dalam dokumen tertentu, dan IDF(term) adalah nilai IDF untuk term di seluruh koleksi dokumen.""")
     st.write("""Mengubah representasi teks ke dalam vektor :
     """)
-    
+with sourcecode:
     st.write("###### Aplikasi ini untuk : ")
     st.write("""ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN)""")
     st.write("###### Source Code Aplikasi ada di Github anda bisa acces di link : https://github.com/BojayJaya/PBA-Kelompok-5")
     st.write("###### Untuk Wa saya anda bisa hubungi nomer ini : http://wa.me/6282138614807 ")
 
-with implementation:
+with implementasi:
     st.write("""
     <center><h4 style = "text-align: justify;">APLIKASI ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN)</h4></center>
     """,unsafe_allow_html=True)
