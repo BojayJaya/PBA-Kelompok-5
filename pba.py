@@ -21,11 +21,11 @@ st.write("##### Pramudya Dwi Febrianto - 200411100042")
 st.write("##### Febrian Achmad Syahputra - 200411100106")
 
 #Navbar
-description, implementation = st.tabs(["Description", "Implementation"])
+judul, description, implementation = st.tabs(["Judul", "Description", "Implementation"])
 
-#data_set_description
 with description:
-    st.write("###### Judul : ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN) ")
+    st.write("###### ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN) ")
+with description:
     st.write("""###### Penjelasan Prepocessing Data : """)
     st.write("""1. Case Folding :
     
