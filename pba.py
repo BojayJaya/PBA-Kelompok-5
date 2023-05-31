@@ -24,6 +24,7 @@ st.write("##### Febrian Achmad Syahputra - 200411100106")
 judul, preprocessing, tfidf, implementation = st.tabs(["Judul", "Penjelasan Preprocessing", "Penjelasan TF-IDF", "Implementasi"])
 
 with judul:
+    st.write("""###### Judul : """)
     st.write("""
     <center><h4 style = "text-align: justify;">ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN)</h4></center>
     """,unsafe_allow_html=True)
