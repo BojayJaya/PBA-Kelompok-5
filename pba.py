@@ -24,7 +24,9 @@ st.write("##### Febrian Achmad Syahputra - 200411100106")
 judul, description, implementation = st.tabs(["Judul", "Description", "Implementation"])
 
 with judul:
-    st.write("###### ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN) ")
+    st.write("""
+    <center><h4 style = "text-align: justify;">APLIKASI ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN)</h4></center>
+    """,unsafe_allow_html=True)
 with description:
     st.write("""###### Penjelasan Prepocessing Data : """)
     st.write("""1. Case Folding :
