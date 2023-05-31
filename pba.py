@@ -83,7 +83,7 @@ with tfidf:
     TF-IDF(term, document) = TF(term, document) * IDF(term)
     """)
     st.write("""Dalam perhitungan TF-IDF, TF(term, document) adalah nilai TF untuk term dalam dokumen tertentu, dan IDF(term) adalah nilai IDF untuk term di seluruh koleksi dokumen.""")
-    st.write("""Mengubah representasi teks ke dalam vektor :
+    st.write("""Mengubah representasi teks ke dalam vektor
     """)
 with sourcecode:
     st.write("###### Aplikasi ini untuk : ")
