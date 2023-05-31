@@ -21,7 +21,7 @@ st.write("##### Pramudya Dwi Febrianto - 200411100042")
 st.write("##### Febrian Achmad Syahputra - 200411100106")
 
 #Navbar
-judul, preprocessing, tfidf, sourcecode, implementatisi = st.tabs(["Judul", "Penjelasan Preprocessing", "Penjelasan TF-IDF", "Source Code Apk", "Implementasi"])
+judul, preprocessing, tfidf, sourcecode, implementasi = st.tabs(["Judul", "Penjelasan Preprocessing", "Penjelasan TF-IDF", "Source Code Apk", "Implementasi"])
 
 with judul:
     st.write("""###### Judul : """)
