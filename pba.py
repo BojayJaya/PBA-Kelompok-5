@@ -21,13 +21,13 @@ st.write("##### Pramudya Dwi Febrianto - 200411100042")
 st.write("##### Febrian Achmad Syahputra - 200411100106")
 
 #Navbar
-judul, description, implementation = st.tabs(["Judul", "Description", "Implementation"])
+judul, preprocessing, tfidf, implementation = st.tabs(["Judul", "Penjelasan Preprocessing", "Penjelasan TF-IDF", "Implementasi"])
 
 with judul:
     st.write("""
     <center><h4 style = "text-align: justify;">ANALISIS SENTIMEN PADA WISATA DIENG DENGAN ALGORITMA K-NEAREST NEIGHBOR (K-NN)</h4></center>
     """,unsafe_allow_html=True)
-with description:
+with preprocessing:
     st.write("""###### Penjelasan Prepocessing Data : """)
     st.write("""1. Case Folding :
     
@@ -53,7 +53,7 @@ with description:
 
     Stemming dalam pemrosesan bahasa alami (Natural Language Processing/NLP) adalah proses mengubah kata ke dalam bentuk dasarnya atau bentuk kata yang lebih sederhana, yang disebut sebagai “stem”. Stemming bertujuan untuk menghapus infleksi atau imbuhan pada kata sehingga kata-kata yang memiliki akar kata yang sama dapat diidentifikasi sebagai bentuk yang setara.
     """)
-    
+with tfidf:
     st.write("""###### Penjelasan Ekstraksi Fitur : """)
     st.write("""TF-IDF :""")
     st.write("""Ditahap akhir dari text preprocessing adalah term-weighting .Term-weighting merupakan proses pemberian bobot term pada dokumen. Pembobotan ini digunakan nantinya oleh algoritma Machine Learning untuk klasifikasi dokumen. Ada beberapa metode yang dapat digunakan, salah satunya adalah TF-IDF (Term Frequency-Inverse Document Frequency).""")
